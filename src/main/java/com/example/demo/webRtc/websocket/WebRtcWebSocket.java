@@ -2,7 +2,11 @@ package com.example.demo.webRtc.websocket;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.websocket.OnClose;
@@ -12,10 +16,13 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-import org.json.JSONObject;
+import org.apache.tomcat.util.buf.StringUtils;
+//import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
-import net.bytebuddy.asm.Advice.This;
+import com.alibaba.fastjson.JSONObject;
+
+//import net.bytebuddy.asm.Advice.This;
 
 @ServerEndpoint(value = "/roomChat")
 @Component
@@ -25,6 +32,8 @@ public class WebRtcWebSocket {
 
     //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
     private static CopyOnWriteArraySet<WebRtcWebSocket> webSocketSet = new CopyOnWriteArraySet<WebRtcWebSocket>();
+    
+    private static Map<String,CopyOnWriteArraySet<WebRtcWebSocket>> roomMap = new ConcurrentHashMap<>();
 
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
@@ -37,19 +46,21 @@ public class WebRtcWebSocket {
      * 连接建立成功调用的方法*/
     @OnOpen
     public void onOpen(Session session) {
+    	//if()
         this.session = session;
         this.key=UUID.randomUUID().toString();
         URI uri = session.getRequestURI();
         webSocketSet.add(this); //加入set中
         addOnlineCount();           //在线数加1
+        
         System.out.println("有新连接加入！当前在线人数为" + getOnlineCount());
         try {
-        	JSONObject jo = new JSONObject();
+        	/*JSONObject jo = new JSONObject();
         	jo.accumulate("eventName", "_peers");
         	JSONObject data = new JSONObject();
         	data.accumulate("you", this.key);
-            sendMessage();
-        } catch (IOException e) {
+            sendMessage();*/
+        } catch (Exception e) {
             System.out.println("IO异常");
         }
     }
@@ -67,22 +78,56 @@ public class WebRtcWebSocket {
     /**
      * 收到客户端消息后调用的方法
      *
-     * @param message 客户端发送过来的消息*/
+     * @param message 客户端发送过来的消息
+     * @throws IOException */
     @OnMessage
-    public void onMessage(String message, Session session) {
+    public void onMessage(String message, Session session) throws IOException {
         System.out.println("来自客户端的消息:" + message);
-
-        //群发消息
-        for (WebRtcWebSocket item : webSocketSet) {
-            try {
-                item.sendMessage(message);
-            } catch (IOException e) {
-                e.printStackTrace();
+        JSONObject jo = JSONObject.parseObject(message);
+        JSONObject data = jo.getJSONObject("data");
+        String room = data.getString("room");
+    	if(org.springframework.util.StringUtils.isEmpty(room))
+    		room = "default";
+        if("__join".equals(jo.getString("eventName"))) {
+        	
+        	if(!roomMap.containsKey(room)) {
+    			CopyOnWriteArraySet<WebRtcWebSocket> roomSockets = new CopyOnWriteArraySet<>();
+    			roomSockets.add(this);
+    			roomMap.put(room, roomSockets);
+    		}else
+    			roomMap.get(room).add(this);	
+        	
+        	sendPeers(room);
+        		
+        }else {
+        	for (WebRtcWebSocket item : roomMap.get(room)) {
+                try {
+                    item.sendMessage(message);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
+
     }
 
-    @OnError
+    private void sendPeers(String roomName) throws IOException {
+    	JSONObject jo = new JSONObject();
+    	jo.put("eventName", "_peers");
+    	JSONObject data = new JSONObject();
+    	data.put("you", this.key);
+    	List<String> connections = new LinkedList<>();
+    	for(WebRtcWebSocket ws :roomMap.get(roomName)) {
+    		connections.add(ws.key);
+    	}
+    	data.put("connections", connections.toArray(new String[connections.size()]));
+    	jo.put("data",data);
+    	sendMessage(jo.toJSONString());
+		
+		
+	}
+
+	@OnError
     public void onError(Session session, Throwable error) {
         System.out.println("发生错误");
         error.printStackTrace();

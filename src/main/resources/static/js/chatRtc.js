@@ -387,7 +387,7 @@ var chatRtc = function() {
             this.emit("data_channel_create_error", socketId, new Error("attempt to create data channel without socket id"));
         }
 
-        if (!(pc instanceof PeerConnection)) {
+        if (!(pc instanceof RTCPeerConnection)) {
             this.emit("data_channel_create_error", socketId, new Error("attempt to create data channel without peerConnection"));
         }
         try {

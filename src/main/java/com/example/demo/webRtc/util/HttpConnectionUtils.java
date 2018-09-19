@@ -5,6 +5,8 @@ import java.net.URL;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
@@ -66,7 +68,8 @@ public class HttpConnectionUtils
 			}
 			conn.setRequestProperty("Content-Type", "application/json");
 			conn.setRequestProperty("Accept", "application/json");
-			conn.setRequestProperty("Oc_Platform_Type", "4");
+			conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+			conn.setRequestProperty("Oc_Chatserver_MinVersion", "3.0.0");
 			conn.setRequestProperty("Oc_Platform_AppVersion", "2.8.1");
 			conn.setDoInput(true);
 			conn.setDoOutput(true);
@@ -103,6 +106,20 @@ public class HttpConnectionUtils
 				
 		});
 		return sb.toString().endsWith("&")? sb.toString().substring(0,sb.toString().length()-1):sb.toString();
+	}
+	
+	public static void main(String[] args) throws Exception
+	{
+		Map<String, String> map = new LinkedHashMap<>();
+		map.put("mobile", "13679487149");
+		map.put("code", "123456");
+		Map<String, String> map1 = new LinkedHashMap<>();
+		map1.put("account", "qwerty");
+		map1.put("password", "123456");
+		String path = "http://192.168.1.157:7110/business/user/relate";
+		//System.out.println(request(path, map));
+		String path1 = "http://192.168.1.157:7110/business/user/relate1";
+		System.out.println(request(path1, map1));
 	}
 
 }

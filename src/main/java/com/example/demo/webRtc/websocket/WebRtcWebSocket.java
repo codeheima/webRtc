@@ -22,6 +22,8 @@ import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSONObject;
 
+import net.bytebuddy.asm.Advice.This;
+
 //import net.bytebuddy.asm.Advice.This;
 
 @ServerEndpoint(value = "/roomChat")
@@ -72,6 +74,8 @@ public class WebRtcWebSocket {
     public void onClose() {
         webSocketSet.remove(this);  //从set中删除
         subOnlineCount();           //在线数减1
+        CopyOnWriteArraySet<WebRtcWebSocket> wss = roomMap.get(this.roomName);
+        wss.remove(this);
         System.out.println("有一连接关闭！当前在线人数为" + getOnlineCount());
     }
 
@@ -88,10 +92,17 @@ public class WebRtcWebSocket {
         String room = data.getString("room");
     	if(org.springframework.util.StringUtils.isEmpty(room))
     		room = "default";
-        if("__join".equals(jo.getString("eventName"))) {
-        	
+        if("_join".equals(jo.getString("eventName"))) {
+        	this.roomName = room;
         	//先给房间里其他用户发送通知
-        	//{\"eventName\":\"_new_peer\",\"data\":{}}
+        	//{\"eventName\":\"_new_peer\",\"data\":{\"socketId\":\"1232-osadf-safd\"}}
+        	CopyOnWriteArraySet<WebRtcWebSocket> wss= roomMap.get(room);
+        	if(null!=wss&&!wss.isEmpty()) {
+        		for(WebRtcWebSocket c :wss) {
+            		sendNewPeer(c);
+            		//c.sendMessage(message);
+            	}
+        	}
         	if(!roomMap.containsKey(room)) {
     			CopyOnWriteArraySet<WebRtcWebSocket> roomSockets = new CopyOnWriteArraySet<>();
     			roomSockets.add(this);
@@ -104,6 +115,8 @@ public class WebRtcWebSocket {
         }else {
         	for (WebRtcWebSocket item : roomMap.get(room)) {
                 try {
+                	if(item.key.equals(this.key))
+                		continue;
                     item.sendMessage(message);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -113,7 +126,23 @@ public class WebRtcWebSocket {
 
     }
 
-    private void sendPeers(String roomName) throws IOException {
+    private void sendNewPeer(WebRtcWebSocket c) throws IOException
+	{
+    	JSONObject jo = new JSONObject();
+    	jo.put("eventName", "_new_peer");
+    	JSONObject data = new JSONObject();
+    	data.put("socketId", this.key);
+//    	List<String> connections = new LinkedList<>();
+//    	for(WebRtcWebSocket ws :roomMap.get(roomName)) {
+//    		connections.add(ws.key);
+//    	}
+//    	data.put("connections", connections.toArray(new String[connections.size()]));
+    	jo.put("data",data);
+    	c.sendMessage(jo.toJSONString());
+		
+	}
+
+	private void sendPeers(String roomName) throws IOException {
     	JSONObject jo = new JSONObject();
     	jo.put("eventName", "_peers");
     	JSONObject data = new JSONObject();
@@ -137,8 +166,9 @@ public class WebRtcWebSocket {
 
 
     public void sendMessage(String message) throws IOException {
-        this.session.getBasicRemote().sendText(message);
-        //this.session.getAsyncRemote().sendText(message);
+        //this.session.getBasicRemote().sendText(message);
+    	System.out.println(message);
+        this.session.getAsyncRemote().sendText(message);
     }
 
 

@@ -89,7 +89,7 @@ var chatRtc = function() {
         socket = this.socket = new WebSocket(server);
         socket.onopen = function() {
             socket.send(JSON.stringify({
-                "eventName": "__join",
+                "eventName": "_join",
                 "data": {
                     "room": room
                 }
@@ -249,7 +249,7 @@ var chatRtc = function() {
                 return function(session_desc) {
                     pc.setLocalDescription(session_desc);
                     that.socket.send(JSON.stringify({
-                        "eventName": "__offer",
+                        "eventName": "_offer",
                         "data": {
                             "sdp": session_desc,
                             "socketId": socketId
@@ -280,7 +280,7 @@ var chatRtc = function() {
         pc.createAnswer(function(session_desc) {
             pc.setLocalDescription(session_desc);
             that.socket.send(JSON.stringify({
-                "eventName": "__answer",
+                "eventName": "_answer",
                 "data": {
                     "socketId": socketId,
                     "sdp": session_desc
@@ -317,7 +317,7 @@ var chatRtc = function() {
         pc.onicecandidate = function(evt) {
             if (evt.candidate)
                 that.socket.send(JSON.stringify({
-                    "eventName": "__ice_candidate",
+                    "eventName": "_ice_candidate",
                     "data": {
                         "label": evt.candidate.sdpMLineIndex,
                         "candidate": evt.candidate.candidate,
@@ -364,7 +364,7 @@ var chatRtc = function() {
     skyrtc.prototype.sendMessage = function(message, socketId) {
         if (this.dataChannels[socketId].readyState.toLowerCase() === 'open') {
             this.dataChannels[socketId].send(JSON.stringify({
-                type: "__msg",
+                type: "_msg",
                 data: message
             }));
         }
@@ -414,7 +414,7 @@ var chatRtc = function() {
         channel.onmessage = function(message) {
             var json;
             json = JSON.parse(message.data);
-            if (json.type === '__file') {
+            if (json.type === '_file') {
                 /*that.receiveFileChunk(json);*/
                 that.parseFilePacket(json, socketId);
             } else {
@@ -525,7 +525,7 @@ var chatRtc = function() {
         var that = this,
             fileToSend = that.fileChannels[socketId][sendId],
             packet = {
-                type: "__file",
+                type: "_file",
                 signal: "chunk",
                 sendId: sendId
             },
@@ -603,7 +603,7 @@ var chatRtc = function() {
             name: fileToSend.file.name,
             size: fileToSend.file.size,
             sendId: sendId,
-            type: "__file",
+            type: "_file",
             signal: "ask"
         };
         channel.send(JSON.stringify(packet));
@@ -677,7 +677,7 @@ var chatRtc = function() {
             that.emit("receive_file_error", new Error("Channel has been destoried"), sendId, socketId);
         }
         packet = {
-            type: "__file",
+            type: "_file",
             signal: "accept",
             sendId: sendId
         };
@@ -694,7 +694,7 @@ var chatRtc = function() {
             that.emit("receive_file_error", new Error("Channel has been destoried"), sendId, socketId);
         }
         packet = {
-            type: "__file",
+            type: "_file",
             signal: "refuse",
             sendId: sendId
         };

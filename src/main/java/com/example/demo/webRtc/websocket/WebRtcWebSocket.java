@@ -90,6 +90,8 @@ public class WebRtcWebSocket {
     		room = "default";
         if("__join".equals(jo.getString("eventName"))) {
         	
+        	//先给房间里其他用户发送通知
+        	//{\"eventName\":\"_new_peer\",\"data\":{}}
         	if(!roomMap.containsKey(room)) {
     			CopyOnWriteArraySet<WebRtcWebSocket> roomSockets = new CopyOnWriteArraySet<>();
     			roomSockets.add(this);

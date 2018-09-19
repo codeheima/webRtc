@@ -248,13 +248,15 @@ var chatRtc = function() {
             pcCreateOfferCbGen = function(pc, socketId) {
                 return function(session_desc) {
                     pc.setLocalDescription(session_desc);
-                    that.socket.send(JSON.stringify({
-                        "eventName": "_offer",
-                        "data": {
-                            "sdp": session_desc,
-                            "socketId": socketId
-                        }
-                    }));
+                    var obj = {
+                            "eventName": "_offer",
+                            "data": {
+                                "sdp": session_desc,
+                                "socketId": socketId
+                            }
+                        };
+                    console.log(obj);
+                    that.socket.send(JSON.stringify(obj));
                 };
             },
             pcCreateOfferErrorCb = function(error) {
@@ -279,13 +281,15 @@ var chatRtc = function() {
         pc.setRemoteDescription(new nativeRTCSessionDescription(sdp));
         pc.createAnswer(function(session_desc) {
             pc.setLocalDescription(session_desc);
-            that.socket.send(JSON.stringify({
-                "eventName": "_answer",
-                "data": {
-                    "socketId": socketId,
-                    "sdp": session_desc
-                }
-            }));
+            var obj = {
+                    "eventName": "_answer",
+                    "data": {
+                        "socketId": socketId,
+                        "sdp": session_desc
+                    }
+                };
+            console.log(obj);
+            that.socket.send(JSON.stringify(obj));
         }, function(error) {
             console.log(error);
         });

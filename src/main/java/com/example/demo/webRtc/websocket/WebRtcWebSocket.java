@@ -16,13 +16,11 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-import org.apache.tomcat.util.buf.StringUtils;
 //import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSONObject;
 
-import net.bytebuddy.asm.Advice.This;
 
 //import net.bytebuddy.asm.Advice.This;
 
@@ -168,7 +166,7 @@ public class WebRtcWebSocket {
     public void sendMessage(String message) throws IOException {
         //this.session.getBasicRemote().sendText(message);
     	System.out.println(message);
-        this.session.getAsyncRemote().sendText(message);
+        this.session.getBasicRemote().sendText(message);
     }
 
 

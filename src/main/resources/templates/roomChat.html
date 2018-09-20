@@ -9,21 +9,26 @@
       height: 100%;
       margin: 0;
       padding: 0;
-      background-color: #f0f0f0;
+      background:url(http://www.w3school.com.cn/i/eg_bg_07.gif) repeat fixed
     }
 
-    #videos {
+    #mainVedio {
       position: absolute;
       left: 30%;
       top: 0;
       bottom: 0;
-      right: 0;
+      right: 20%;
       overflow: auto;
+      background:url(http://www.w3school.com.cn/i/eg_bg_05.gif) repeat fixed
+    }
+    #mainVedio video {
+      width: 90%;
+      height:80%;
     }
 
     #videos video {
-      display: inline-block;
-      width: 32%;
+      width: 90%;
+      height:20%;
     }
 
     #chat {
@@ -69,6 +74,15 @@
       font-weight: bold;
       text-decoration: none
     }
+    #videos {
+    	position: absolute;
+      	left: 75%;
+      	top: 0;
+      	bottom: 0;
+      	right: 0;
+        overflow: auto;	
+        background:url(http://www.w3school.com.cn/i/eg_bg_01.gif) repeat fixed
+    }
   </style>
 </head>
 <body>
@@ -79,8 +93,11 @@
     <input type="text" id="msgIpt" class="msgIpt">
     <button id="sendBtn" class="sendBtn">发送</button>
   </div>
+  <div id="mainVedio">
+  	<video id="me" autoplay></video>
+  </div>
   <div id="videos">
-    <video id="me" autoplay></video>
+    
   </div>
   <div id="files">
   </div>

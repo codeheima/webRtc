@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -21,6 +22,8 @@ import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSONObject;
 
+import net.bytebuddy.asm.Advice.This;
+
 
 //import net.bytebuddy.asm.Advice.This;
 
@@ -30,6 +33,7 @@ public class WebRtcWebSocket {
     //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
     private static int onlineCount = 0;
 
+    private static ReentrantLock lock = new ReentrantLock();
     //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
     private static CopyOnWriteArraySet<WebRtcWebSocket> webSocketSet = new CopyOnWriteArraySet<WebRtcWebSocket>();
     
@@ -49,10 +53,8 @@ public class WebRtcWebSocket {
     	//if()
         this.session = session;
         this.key=UUID.randomUUID().toString();
-        URI uri = session.getRequestURI();
         webSocketSet.add(this); //加入set中
         addOnlineCount();           //在线数加1
-        
         System.out.println("有新连接加入！当前在线人数为" + getOnlineCount());
         try {
         	/*JSONObject jo = new JSONObject();
@@ -70,14 +72,39 @@ public class WebRtcWebSocket {
      */
     @OnClose
     public void onClose() {
+    	lock.lock();
         webSocketSet.remove(this);  //从set中删除
         subOnlineCount();           //在线数减1
         CopyOnWriteArraySet<WebRtcWebSocket> wss = roomMap.get(this.roomName);
+        sendRemove(roomMap.get(this.roomName));
         wss.remove(this);
+        lock.unlock();
         System.out.println("有一连接关闭！当前在线人数为" + getOnlineCount());
     }
 
-    /**
+    private void sendRemove(CopyOnWriteArraySet<WebRtcWebSocket> wss)
+	{
+    	JSONObject jo = new JSONObject();
+    	jo.put("eventName", "_remove_peer");
+    	JSONObject data = new JSONObject();
+    	data.put("socketId", this.key);
+    	jo.put("data",data);
+    	wss.forEach((a)->{
+    		if(!a.key.equals(this.key))
+				try
+				{
+					sendMessage(jo.toJSONString());
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+    	});
+    			
+		
+	}
+
+	/**
      * 收到客户端消息后调用的方法
      *
      * @param message 客户端发送过来的消息
@@ -88,9 +115,9 @@ public class WebRtcWebSocket {
         JSONObject jo = JSONObject.parseObject(message);
         JSONObject data = jo.getJSONObject("data");
         String room = data.getString("room");
-    	if(org.springframework.util.StringUtils.isEmpty(room))
-    		room = "default";
         if("_join".equals(jo.getString("eventName"))) {
+        	if(org.springframework.util.StringUtils.isEmpty(room))
+        		room = "default";
         	this.roomName = room;
         	//先给房间里其他用户发送通知
         	//{\"eventName\":\"_new_peer\",\"data\":{\"socketId\":\"1232-osadf-safd\"}}
@@ -101,17 +128,18 @@ public class WebRtcWebSocket {
             		//c.sendMessage(message);
             	}
         	}
+        	lock.lock();
         	if(!roomMap.containsKey(room)) {
     			CopyOnWriteArraySet<WebRtcWebSocket> roomSockets = new CopyOnWriteArraySet<>();
     			roomSockets.add(this);
     			roomMap.put(room, roomSockets);
     		}else
     			roomMap.get(room).add(this);	
-        	
+        	lock.unlock();
         	sendPeers(room);
         		
         }else {
-        	for (WebRtcWebSocket item : roomMap.get(room)) {
+        	for (WebRtcWebSocket item : roomMap.get(this.roomName)) {
                 try {
                 	if(item.key.equals(this.key))
                 		continue;
@@ -165,8 +193,10 @@ public class WebRtcWebSocket {
 
     public void sendMessage(String message) throws IOException {
         //this.session.getBasicRemote().sendText(message);
+    	lock.lock();
     	System.out.println(message);
         this.session.getBasicRemote().sendText(message);
+        lock.unlock();
     }
 
 

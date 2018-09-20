@@ -255,7 +255,7 @@ var chatRtc = function() {
                                 "socketId": socketId
                             }
                         };
-                    console.log(obj);
+                    console.log(session_desc);
                     that.socket.send(JSON.stringify(obj));
                 };
             },
@@ -288,7 +288,7 @@ var chatRtc = function() {
                         "sdp": session_desc
                     }
                 };
-            console.log(obj);
+            console.log(session_desc);
             that.socket.send(JSON.stringify(obj));
         }, function(error) {
             console.log(error);

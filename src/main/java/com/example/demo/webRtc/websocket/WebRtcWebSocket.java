@@ -22,7 +22,6 @@ import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSONObject;
 
-import net.bytebuddy.asm.Advice.This;
 
 
 //import net.bytebuddy.asm.Advice.This;
@@ -38,6 +37,8 @@ public class WebRtcWebSocket {
     private static CopyOnWriteArraySet<WebRtcWebSocket> webSocketSet = new CopyOnWriteArraySet<WebRtcWebSocket>();
     
     private static Map<String,CopyOnWriteArraySet<WebRtcWebSocket>> roomMap = new ConcurrentHashMap<>();
+    
+    private static Map<String, WebRtcWebSocket> socketMap = new ConcurrentHashMap<>();
 
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
@@ -54,6 +55,7 @@ public class WebRtcWebSocket {
         this.session = session;
         this.key=UUID.randomUUID().toString();
         webSocketSet.add(this); //加入set中
+        socketMap.put(key, this);
         addOnlineCount();           //在线数加1
         System.out.println("有新连接加入！当前在线人数为" + getOnlineCount());
         try {
@@ -72,6 +74,7 @@ public class WebRtcWebSocket {
      */
     @OnClose
     public void onClose() {
+    	socketMap.remove(key);
     	lock.lock();
         webSocketSet.remove(this);  //从set中删除
         subOnlineCount();           //在线数减1
@@ -138,16 +141,12 @@ public class WebRtcWebSocket {
         	lock.unlock();
         	sendPeers(room);
         		
-        }else {
-        	for (WebRtcWebSocket item : roomMap.get(this.roomName)) {
-                try {
-                	if(item.key.equals(this.key))
-                		continue;
-                    item.sendMessage(message);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+        }else{
+        	String toKey = data.getString("socketId");
+        	WebRtcWebSocket toWs = socketMap.get(toKey);
+        	data.put("socketId", this.key);
+        	toWs.sendMessage(jo.toJSONString());
+        	
         }
 
     }
@@ -175,7 +174,8 @@ public class WebRtcWebSocket {
     	data.put("you", this.key);
     	List<String> connections = new LinkedList<>();
     	for(WebRtcWebSocket ws :roomMap.get(roomName)) {
-    		connections.add(ws.key);
+    		if(!ws.key.equals(this.key))
+    			connections.add(ws.key);
     	}
     	data.put("connections", connections.toArray(new String[connections.size()]));
     	jo.put("data",data);

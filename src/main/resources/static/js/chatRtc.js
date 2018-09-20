@@ -270,7 +270,7 @@ var chatRtc = function() {
 
     //接收到Offer类型信令后作为回应返回answer类型信令
     skyrtc.prototype.receiveOffer = function(socketId, sdp) {
-        var pc = this.peerConnections[socketId];
+       // var pc = this.peerConnections[socketId];
         this.sendAnswer(socketId, sdp);
     };
 

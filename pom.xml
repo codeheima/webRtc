@@ -49,27 +49,27 @@
 		</dependency>
 		
 
-		<!-- <dependency>
+		<dependency>
 	        <groupId>org.springframework.boot</groupId>
 	        <artifactId>spring-boot-devtools</artifactId>
 	        <optional>true</optional>
-	    </dependency> -->
+	    </dependency>
+	    
 		<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 	</dependencies>
-
+	
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
+	    <plugins>
+	        <plugin>
+	            <groupId>org.springframework.boot</groupId>
 	            <artifactId>spring-boot-maven-plugin</artifactId>
 	            <configuration>
 	                <fork>true</fork>
 	            </configuration>
-			</plugin>
-			
+	        </plugin>
 		</plugins>
 	</build>
 

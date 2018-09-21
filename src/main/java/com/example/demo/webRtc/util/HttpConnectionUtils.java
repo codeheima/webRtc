@@ -5,7 +5,6 @@ import java.net.URL;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -117,7 +116,7 @@ public class HttpConnectionUtils
 		map1.put("account", "13679487149");
 		map1.put("password", "123456");
 		String path = "http://172.28.98.50:7100/business/user/relate";
-		//System.out.println(request(path, map));
+		System.out.println(request(path, map));
 		String path1 = "http://172.28.98.50:7100/business/user/relate1";
 		System.out.println(request(path1, map1));
 	}

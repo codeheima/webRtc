@@ -1,7 +1,6 @@
 package com.example.demo.webRtc.websocket;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;

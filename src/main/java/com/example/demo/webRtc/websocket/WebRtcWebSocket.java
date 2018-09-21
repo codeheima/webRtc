@@ -75,28 +75,30 @@ public class WebRtcWebSocket {
     @OnClose
     public void onClose() {
     	socketMap.remove(key);
-    	lock.lock();
         webSocketSet.remove(this);  //从set中删除
         subOnlineCount();           //在线数减1
         CopyOnWriteArraySet<WebRtcWebSocket> wss = roomMap.get(this.roomName);
-        sendRemove(roomMap.get(this.roomName));
+        sendRemove(roomMap.get(this.roomName),this.key);
         wss.remove(this);
-        lock.unlock();
         System.out.println("有一连接关闭！当前在线人数为" + getOnlineCount());
     }
+    
+    public static void dealClose() {
+    	
+    }
 
-    private void sendRemove(CopyOnWriteArraySet<WebRtcWebSocket> wss)
+    public static synchronized void sendRemove(CopyOnWriteArraySet<WebRtcWebSocket> wss,String key)
 	{
     	JSONObject jo = new JSONObject();
     	jo.put("eventName", "_remove_peer");
     	JSONObject data = new JSONObject();
-    	data.put("socketId", this.key);
+    	data.put("socketId", key);
     	jo.put("data",data);
     	wss.forEach((a)->{
-    		if(!a.key.equals(this.key))
+    		if(!a.key.equals(key))
 				try
 				{
-					sendMessage(jo.toJSONString());
+					a.sendMessage(jo.toJSONString());
 				}
 				catch (IOException e)
 				{
@@ -188,6 +190,16 @@ public class WebRtcWebSocket {
     public void onError(Session session, Throwable error) {
         System.out.println("发生错误");
         error.printStackTrace();
+        lock.lock();
+        socketMap.remove(key);
+        webSocketSet.remove(this);  //从set中删除
+        subOnlineCount();           //在线数减1
+        CopyOnWriteArraySet<WebRtcWebSocket> wss = roomMap.get(this.roomName);
+        sendRemove(roomMap.get(this.roomName),this.key);
+        wss.remove(this);
+        lock.unlock();
+        System.out.println("有一连接关闭！当前在线人数为" + getOnlineCount());
+        
     }
 
 

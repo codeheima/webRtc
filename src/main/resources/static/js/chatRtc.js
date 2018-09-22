@@ -7,7 +7,11 @@ var chatRtc = function() {
     var moz = !!navigator.mozGetUserMedia;
     var iceServer = {
         "iceServers": [{
-            "url": "stun:stun.l.google.com:19302"
+            "url": "stun:61.146.164.46:3478"
+        },{
+        	"url":"turn:61.146.164.46",
+        	"credential":"engine",
+        	"username":"clouder"
         }]
     };
     var packetSize = 1000;

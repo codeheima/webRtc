@@ -200,7 +200,8 @@
   });
   //创建本地视频流成功
   rtc.on("stream_created", function(stream) {
-    document.getElementById('me').src = URL.createObjectURL(stream);
+	window.stream = stream
+    document.getElementById('me').srcObject = stream;
     document.getElementById('me').play();
   });
   //创建本地视频流失败

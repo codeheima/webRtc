@@ -1,7 +1,7 @@
 var chatRtc = function() {
     //var PeerConnection = (window.PeerConnection || window.webkitPeerConnection00 || window.webkitRTCPeerConnection || window.mozRTCPeerConnection);
     var URL = (window.URL || window.webkitURL || window.msURL || window.oURL);
-    var getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+   // var getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
     var nativeRTCIceCandidate = (window.mozRTCIceCandidate || window.RTCIceCandidate);
     var nativeRTCSessionDescription = (window.mozRTCSessionDescription || window.RTCSessionDescription); // order is very important: "RTCSessionDescription" defined in Nighly but useless
     var moz = !!navigator.mozGetUserMedia;
@@ -10,8 +10,8 @@ var chatRtc = function() {
             "url": "stun:61.146.164.46:3478"
         },{
         	"url":"turn:61.146.164.46",
-        	"credential":"engine",
-        	"username":"clouder"
+        	"credential":"ling1234",
+        	"username":"ling"
         }]
     };
     var packetSize = 1000;
@@ -199,23 +199,19 @@ var chatRtc = function() {
 
         options.video = !!options.video;
         options.audio = !!options.audio;
-
-        if (getUserMedia) {
-            this.numStreams++;
-            getUserMedia.call(navigator, options, function(stream) {
-                    that.localMediaStream = stream;
-                    that.initializedStreams++;
-                    that.emit("stream_created", stream);
-                    if (that.initializedStreams === that.numStreams) {
-                        that.emit("ready");
-                    }
-                },
-                function(error) {
-                    that.emit("stream_create_error", error);
-                });
-        } else {
-            that.emit("stream_create_error", new Error('WebRTC is not yet supported in this browser.'));
-        }
+        this.numStreams++;
+        navigator.mediaDevices.getUserMedia(options).then(
+        		function(stream){
+        			that.localMediaStream = stream;
+        	        that.initializedStreams++;
+        			that.emit("stream_created", stream);
+        			if (that.initializedStreams === that.numStreams) {
+        	            that.emit("ready");
+        	        }
+        			}).catch(
+        					function(e){
+        						that.emit("stream_create_error",e);
+        			});
     };
 
     //将本地流添加到所有的PeerConnection实例中
@@ -231,13 +227,13 @@ var chatRtc = function() {
     //将流绑定到video标签上用于输出
     skyrtc.prototype.attachStream = function(stream, domId) {
         var element = document.getElementById(domId);
-        if (navigator.mozGetUserMedia) {
-            element.mozSrcObject = stream;
-            element.play();
-        } else {
-            element.src = webkitURL.createObjectURL(stream);
-        }
-        element.src = webkitURL.createObjectURL(stream);
+        //if (navigator.mozGetUserMedia) {
+            //element.mozSrcObject = stream;
+           // element.play();
+        //} else {
+            element.srcObject = stream;
+        //}
+       // element.src = webkitURL.createObjectURL(stream);
     };
 
 

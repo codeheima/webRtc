@@ -2,14 +2,14 @@ var chatRtc = function() {
     //var PeerConnection = (window.PeerConnection || window.webkitPeerConnection00 || window.webkitRTCPeerConnection || window.mozRTCPeerConnection);
     var URL = (window.URL || window.webkitURL || window.msURL || window.oURL);
    // var getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
-    var nativeRTCIceCandidate = (window.mozRTCIceCandidate || window.RTCIceCandidate);
-    var nativeRTCSessionDescription = (window.mozRTCSessionDescription || window.RTCSessionDescription); // order is very important: "RTCSessionDescription" defined in Nighly but useless
+    var nativeRTCIceCandidate = window.RTCIceCandidate;
+    var nativeRTCSessionDescription = window.RTCSessionDescription; // order is very important: "RTCSessionDescription" defined in Nighly but useless
     var moz = !!navigator.mozGetUserMedia;
     var iceServer = {
         "iceServers": [{
-            "url": "stun:61.146.164.46:3478"
+            "urls": "stun:61.146.164.46:3478"
         },{
-        	"url":"turn:61.146.164.46",
+        	"urls":"turn:61.146.164.46",
         	"credential":"ling1234",
         	"username":"ling"
         }]
@@ -194,13 +194,25 @@ var chatRtc = function() {
 
 
     //创建本地流
-    skyrtc.prototype.createStream = function(options) {
+    skyrtc.prototype.createStream = async function(options) {
         var that = this;
 
         options.video = !!options.video;
         options.audio = !!options.audio;
         this.numStreams++;
-        navigator.mediaDevices.getUserMedia(options).then(
+        try{
+	        const stream = await navigator.mediaDevices.getUserMedia(options);
+	        that.localMediaStream = stream;
+	        that.initializedStreams++;
+			that.emit("stream_created", stream);
+			if (that.initializedStreams === that.numStreams) {
+	            that.emit("ready");
+	        }
+	    }catch(e){
+	    	that.emit("stream_create_error",e);
+	    }
+    
+        /*navigator.mediaDevices.getUserMedia(options).then(
         		function(stream){
         			that.localMediaStream = stream;
         	        that.initializedStreams++;
@@ -211,7 +223,7 @@ var chatRtc = function() {
         			}).catch(
         					function(e){
         						that.emit("stream_create_error",e);
-        			});
+        			});*/
     };
 
     //将本地流添加到所有的PeerConnection实例中

@@ -2,16 +2,17 @@ var chatRtc = function() {
     //var PeerConnection = (window.PeerConnection || window.webkitPeerConnection00 || window.webkitRTCPeerConnection || window.mozRTCPeerConnection);
     var URL = (window.URL || window.webkitURL || window.msURL || window.oURL);
    // var getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
-    var nativeRTCIceCandidate = window.RTCIceCandidate;
-    var nativeRTCSessionDescription = window.RTCSessionDescription; // order is very important: "RTCSessionDescription" defined in Nighly but useless
+    //var nativeRTCIceCandidate = window.RTCIceCandidate;
+    //var nativeRTCSessionDescription = window.RTCSessionDescription; // order is very important: "RTCSessionDescription" defined in Nighly but useless
     var moz = !!navigator.mozGetUserMedia;
+    //turnserver -o -a -f -v --mobility -m 10 --max-bps=100000 --min-port=32355 --max-port=65535 --user=ling:ling1234 --user=ling2:ling1234 -r demo
     var iceServer = {
         "iceServers": [{
             "urls": "stun:61.146.164.46:3478"
         },{
         	"urls":"turn:61.146.164.46",
-        	"credential":"ling1234",
-        	"username":"ling"
+        	"credential":"engine",
+        	"username":"clouder"
         }]
     };
     var packetSize = 1000;
@@ -137,7 +138,7 @@ var chatRtc = function() {
         });
 
         this.on("_ice_candidate", function(data) {
-            var candidate = new nativeRTCIceCandidate(data);
+            var candidate = new RTCIceCandidate(data);
             var pc = that.peerConnections[data.socketId];
             pc.addIceCandidate(candidate);
             that.emit('get_ice_candidate', candidate);
@@ -180,7 +181,7 @@ var chatRtc = function() {
         this.on('receive_file_error', function(error, sendId) {
             that.cleanReceiveFile(sendId);
         });
-
+        
         this.on('ready', function() {
             that.createPeerConnections();
             that.addStreams();
@@ -290,7 +291,7 @@ var chatRtc = function() {
     skyrtc.prototype.sendAnswer = function(socketId, sdp) {
         var pc = this.peerConnections[socketId];
         var that = this;
-        pc.setRemoteDescription(new nativeRTCSessionDescription(sdp));
+        pc.setRemoteDescription(new RTCSessionDescription(sdp));
         pc.createAnswer(function(session_desc) {
             pc.setLocalDescription(session_desc);
             var obj = {
@@ -310,7 +311,7 @@ var chatRtc = function() {
     //接收到answer类型信令后将对方的session描述写入PeerConnection中
     skyrtc.prototype.receiveAnswer = function(socketId, sdp) {
         var pc = this.peerConnections[socketId];
-        pc.setRemoteDescription(new nativeRTCSessionDescription(sdp));
+        pc.setRemoteDescription(new RTCSessionDescription(sdp));
     };
 
 

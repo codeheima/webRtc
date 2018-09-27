@@ -9,7 +9,7 @@
       height: 100%;
       margin: 0;
       padding: 0;
-      background:url(http://www.w3school.com.cn/i/eg_bg_07.gif) repeat fixed
+      background:#775566
     }
 
     #mainVedio {
@@ -19,7 +19,7 @@
       bottom: 0;
       right: 20%;
       overflow: auto;
-      background:url(http://www.w3school.com.cn/i/eg_bg_05.gif) repeat fixed
+      background:#555555
     }
     #mainVedio video {
       width: 90%;
@@ -81,7 +81,7 @@
       	bottom: 0;
       	right: 0;
         overflow: auto;	
-        background:url(http://www.w3school.com.cn/i/eg_bg_01.gif) repeat fixed
+        background:#335566
     }
   </style>
 </head>
@@ -103,12 +103,18 @@
   </div>
 </body>
 <script type="text/javascript" src="/js/chatRtc.js"></script>
+<script type="text/javascript" src="/js/safari.js"></script>
 <script type="text/javascript">
+//url(http://www.w3school.com.cn/i/eg_bg_01.gif) repeat fixed
   var videos = document.getElementById("videos");
   var sendBtn = document.getElementById("sendBtn");
   var msgs = document.getElementById("msgs");
   var sendFileBtn = document.getElementById("sendFileBtn");
   var files = document.getElementById("files");
+  var suportAutoPlay = function(){
+  	let userAngent = window.navigator.userAgent.toLowerCase();
+  	return userAngent.indexOf("chrome")<0&&userAngent.indexOf("safari")>0;
+  }
   var rtc = chatRtc();
 
   /**********************************************************/
@@ -214,8 +220,14 @@
         id = "other-" + socketId;
     newVideo.setAttribute("class", "other");
     newVideo.setAttribute("autoplay", "autoplay");
+    newVideo.setAttribute("webkit-playsinline","")
+    newVideo.setAttribute("playsinline","");
+    newVideo.setAttribute("x5-playsinline","");
     newVideo.setAttribute("id", id);
     videos.appendChild(newVideo);
+    if(suportAutoPlay()){
+    	safariVedio(newVideo);
+    }
     rtc.attachStream(stream, id);
   });
   //删除其他用户

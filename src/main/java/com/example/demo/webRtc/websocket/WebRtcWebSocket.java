@@ -225,7 +225,7 @@ public class WebRtcWebSocket {
     }
 
     public static synchronized int getOnlineCount() {
-        return onlineCount;
+        return webSocketSet.size();
     }
 
     public static synchronized void addOnlineCount() {

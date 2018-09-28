@@ -110,17 +110,17 @@ public class HttpConnectionUtils
 	public static void main(String[] args) throws Exception
 	{
 		Map<String, String> map = new LinkedHashMap<>();
-		//map.put("mobile", "13679487149");
-		//map.put("type", "1");
-		//map.put("code", "567898");
-		//map.put(key, value)
+		map.put("token", "8001067e69944636a0e5ae7be50ed25ac9f75ae5");
+		//map.put("im_room_name", "7d38f92f4");
 //		Map<String, String> map1 = new LinkedHashMap<>();
 //		map1.put("account", "13679487149");
 //		map1.put("password", "123456");
-		String path = "http://192.168.105.27:7100/outer/registrar/chat/stat/list";
+		String path = "http://chat.cloudak47.com:7100/business/user/get";
+		String path2 = "http://chat.cloudak47.com:7100/business/user/getuser";
+		String path3 = "http://chat.cloudak47.com:7100/business/user/chat/room/list";
 //		System.out.println(request(path, map));
 //		String path1 = "http://172.28.98.50:7100/business/user/relate1";
-		System.out.println(request(path, map));
+		System.out.println(request(path3, map));
 	}
 
 }

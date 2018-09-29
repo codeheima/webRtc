@@ -9,7 +9,7 @@
       height: 100%;
       margin: 0;
       padding: 0;
-      background:#775566
+      background:#ababab
     }
 
     #mainVedio {
@@ -19,7 +19,7 @@
       bottom: 0;
       right: 20%;
       overflow: auto;
-      background:#555555
+      background: url(http://www.w3school.com.cn/i/eg_bg_01.gif) repeat fixed
     }
     #mainVedio video {
       width: 90%;
@@ -81,7 +81,7 @@
       	bottom: 0;
       	right: 0;
         overflow: auto;	
-        background:#335566
+        background: url(http://www.w3school.com.cn/i/eg_bg_01.gif) repeat fixed
     }
   </style>
 </head>
@@ -94,10 +94,9 @@
     <button id="sendBtn" class="sendBtn">发送</button>
   </div>
   <div id="mainVedio">
-  	<video id="me" autoplay></video>
+  	<video id="me" autoplay="" playsinline="" muted=""></video>
   </div>
   <div id="videos">
-    
   </div>
   <div id="files">
   </div>
@@ -215,10 +214,8 @@
     var newVideo = document.createElement("video"),
         id = "other-" + socketId;
     newVideo.setAttribute("class", "other");
-    newVideo.setAttribute("autoplay", "autoplay");
-    newVideo.setAttribute("webkit-playsinline","")
+    //newVideo.setAttribute("autoplay", "autoplay");
     newVideo.setAttribute("playsinline","");
-    newVideo.setAttribute("x5-playsinline","");
     newVideo.setAttribute("id", id);
     videos.appendChild(newVideo);
     rtc.attachStream(stream, id);

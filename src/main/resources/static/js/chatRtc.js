@@ -11,8 +11,8 @@ var chatRtc = function() {
             "urls": "stun:61.146.164.46:3478"
         },{
         	"urls":"turn:61.146.164.46",
-        	"credential":"engine",
-        	"username":"clouder"
+        	"credential":"ling1234",
+        	"username":"ling"
         }]
     };
     var packetSize = 1000;
@@ -245,6 +245,8 @@ var chatRtc = function() {
            // element.play();
         //} else {
             element.srcObject = stream;
+            element.load();
+            element.play();
         //}
        // element.src = webkitURL.createObjectURL(stream);
     };

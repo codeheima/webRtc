@@ -94,14 +94,13 @@
     <button id="sendBtn" class="sendBtn">发送</button>
   </div>
   <div id="mainVedio">
-  	<video id="me" autoplay="" playsinline="" muted=""></video>
+  	<video id="me" autoplay="" playsinline=""></video>
   </div>
   <div id="videos">
   </div>
   <div id="files">
   </div>
 </body>
-<script type="text/javascript" src="/js/adapter.js"></script>
 <script type="text/javascript" src="/js/chatRtc.js"></script>
 <script type="text/javascript">
 //url(http://www.w3school.com.cn/i/eg_bg_01.gif) repeat fixed
@@ -216,6 +215,9 @@
     newVideo.setAttribute("class", "other");
     //newVideo.setAttribute("autoplay", "autoplay");
     newVideo.setAttribute("playsinline","");
+    newVideo.setAttribute("webkit-playsinline","")
+    newVideo.setAttribute("x5-playsinline","");
+    newVideo.setAttribute("muted","");
     newVideo.setAttribute("id", id);
     videos.appendChild(newVideo);
     rtc.attachStream(stream, id);

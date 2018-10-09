@@ -147,7 +147,8 @@ public class HttpConnectionUtils
      * @param uploadFilePaths：需要上传的文件路径，数组
      * @return
      */
-    public static String uploadFile(String actionUrl, String... uploadFilePaths) {
+    @SuppressWarnings("finally")
+	public static String uploadFile(String actionUrl, String... uploadFilePaths) {
         String end = "\r\n";
         String twoHyphens = "--";
         String boundary = "*****";

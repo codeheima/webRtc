@@ -138,6 +138,7 @@ public class HttpConnectionUtils
 //		System.out.println(request(path, map));
 //		String path1 = "http://172.28.98.50:7100/business/user/relate1";
 		System.out.println(uploadFile(path, "ll.gif"));
+		
 	}
 	
 	 /**

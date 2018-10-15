@@ -1,2 +1,14 @@
 1.需求：
 1） 聊天室
+
+socketId
+
+json :加入聊天室 {"event":"joinRoom","data":{}}
+
+有新的端加入 {"event":"newpeer","data":{}}
+
+删除某个端   {"event":"removepeer","data":{}}
+
+
+
+

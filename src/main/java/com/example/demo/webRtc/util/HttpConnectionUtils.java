@@ -118,11 +118,11 @@ public class HttpConnectionUtils
 	public static void main(String[] args) throws Exception
 	{
 		Map<String, Object> map = new LinkedHashMap<>();
-		map.put("ocBinaryFile", new File("ll.gif"));
-		map.put("type", "image");
-		map.put("subType", "gif");
+		//map.put("meeting_id", "4");
+		map.put("type", "file");
+		map.put("subType", "ogg");
 		//map.put("page_size", "20");
-		//map.put("token", "8001067e69944636a0e5ae7be50ed25ac9f75ae5");
+		map.put("token", "0e4b5868f0f34320aabf9fa0f487d2886add3822");
 		//map.put("thirdparty_id", "3");
 		//map.put("data", "h/nT8mXYKT5jpiu0QHWLaeVRIjY4zceFRISdbC0x7hq+OXqQLkf1r2zQc3RAOcef");
 		//map.put("im_room_name", "7d38f92f4");
@@ -131,13 +131,14 @@ public class HttpConnectionUtils
 //		map1.put("password", "123456");
 		//192.168.105.27:7100;172.28.98.50:7100
 		String countPath = "http://192.168.1.157:7110/outer/registrar/chat/stat/list";
+		//String path = "http://192.168.1.157:7110/business/user/meeting/list";
 		String path = "http://192.168.1.157:7110/chat/file/deal";
 		String path2 = "http://chat.cloudak47.com:7100/business/user/getuser";
 		String path3 = "http://chat.cloudak47.com:7100/business/user/chat/room/list";
 		String path4 = "http://chat.cloudak47.com:7100/business/user/thirdparty/encrypt/show";
-//		System.out.println(request(path, map));
+	//	System.out.println(request(path, map));
 //		String path1 = "http://172.28.98.50:7100/business/user/relate1";
-		System.out.println(uploadFile(path, "ll.gif"));
+		System.out.println(uploadFile(path, "horse.ogg"));
 		
 	}
 	

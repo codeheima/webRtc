@@ -1,0 +1,955 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+@font-face {
+	font-family: 'dianzi';
+	src: url("../fonts/dianzi.ttf") format('truetype');
+}
+body {
+    background-color: #000a16
+}
+
+.box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    min-width: 1900px;
+    min-height: 900px;
+}
+
+/* 左 */
+
+.left {
+    /* border: 1px solid red; */
+    width: 1100px;
+    height: 900px;
+    /* margin: auto; */
+    float: left
+}
+
+.LeftHead {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.iconone {
+    width: 19px;
+    height: 19px;
+}
+
+.ThemeName {
+    color: #cccccc;
+    margin-left: 15px;
+}
+
+.BigVideo {
+    position: relative;
+    width: 100%;
+    height: 750px;
+    /* box-shadow: 0px -40px 40px -15px pink inset; */
+}
+
+.BigVideo video {
+    width: 100%;
+    height: 500px;
+}
+
+.echomax img {
+    width: 16px;
+    height: 24px;
+}
+
+.volume img {
+    width: 24px;
+    height: 24px;
+}
+
+.signal img {
+    width: 20px;
+    height: 18px;
+}
+
+.echomax {
+    position: absolute;
+    bottom: 10px;
+    left: 30px;
+}
+
+.volume {
+    position: absolute;
+    bottom: 10px;
+    right: 80px;
+}
+
+.signal {
+    position: absolute;
+    bottom: 13px;
+    right: 30px;
+}
+
+.below {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.below .img img {
+    margin-top: 15px;
+    width: 35px;
+    height: 35px;
+    border-radius: 3px;
+}
+
+.below span {
+    margin-top: 15px;
+    color: #999999;
+    margin: 10px
+}
+
+.below .names,
+.below .microphones {
+    margin-top: 15px;
+    margin-right: 40px;
+}
+
+.below .cameras {
+    margin-top: 15px;
+}
+
+.microphone,
+.camera {
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+/* 中 */
+
+.centre {
+    width: 340px;
+    height: 900px;
+    margin: 0px 50px 0px 50px
+}
+
+.time {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.time span {
+    color: #999999;
+    font-size: 30px;
+    font-family: 'dianzi';
+}
+
+.audience {
+    width: 100%;
+    height: 750px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* border: 1px solid #fff; */
+}
+
+.audience::-webkit-scrollbar {
+    display: none;
+}
+
+.audience .video-list {
+    list-style: none;
+    width: 100%;
+    height: 235px;
+    margin-top: 22px;
+    position: relative;
+}
+
+.audience .video-list:nth-child(1) {
+    margin-top: 0;
+}
+
+.content {
+    width: 100%;
+    height: 185px;
+    background-color: #06182f;
+}
+.content video{
+	width:299px;
+	height:125px;
+}
+.video-list .join {
+    width: 150px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 7.7vh;
+    right: 0;
+    left: 0;
+    margin: auto;
+}
+
+.join span {
+    line-height: 30px;
+    margin-left: 10px;
+    color: #999999;
+}
+
+.join i {
+    width: 20px;
+    height: 24px;
+}
+
+.control {
+    width: 100%;
+    height: 50px;
+    position: relative;
+    background-color: #333b45;
+}
+
+.video-list .signals {
+    width: 20px;
+    height: 18px;
+    position: absolute;
+    bottom: 60px;
+    right: 15px;
+}
+
+.control span {
+    width: 150px;
+    height: 20px;
+    color: #999999;
+    top: 0;
+    bottom: 0;
+    left: 15px;
+    position: absolute;
+    margin: auto
+}
+
+.control .mic {
+    width: 16px;
+    height: 24px;
+    cursor: pointer;
+    top: 0;
+    bottom: 0;
+    right: 60px;
+    position: absolute;
+    margin: auto
+}
+
+.control .gmod {
+    width: 20px;
+    height: 24px;
+    cursor: pointer;
+    top: 0;
+    bottom: 0;
+    right: 15px;
+    position: absolute;
+    margin: auto
+}
+
+/* 右 */
+
+.right {
+    width: 300px;
+    height: 900px;
+}
+
+.right .head {
+    width: 100%;
+    height: 50px;
+}
+
+.head .setting,
+.head .split {
+    width: 48%;
+    height: 50px;
+    background-color: #4d545c;
+    float: left;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.head .split {
+    float: left;
+}
+
+.head .setting {
+    float: right;
+}
+
+.head .split span,
+.head .setting span {
+    color: #cccccc
+}
+
+.open {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.green,
+.blue {
+    width: 35%;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.green {
+    margin-right: 15px;
+}
+
+.blue {
+    margin-left: 15px;
+}
+
+.green span,
+.blue span {
+    color: #999999;
+    font-size: 13px;
+}
+
+.green img,
+.blue img {
+    margin-right: 10px;
+}
+
+.manage-list {
+    width: 100%;
+    height: 700px;
+    background-color: #333b45;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.manage-list::-webkit-scrollbar {
+    display: none;
+}
+
+.manage-list li {
+    list-style: none;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+}
+
+.manage-list li:nth-of-type(even) {
+    background-color: #484f58;
+}
+
+.manage-list .img {
+    width: 35px;
+    height: 35px;
+    margin: 0px 15px 0px 15px;
+}
+
+.manage-list .img img {
+    width: 35px;
+    height: 35px;
+    border-radius: 3px;
+}
+
+.manage-list .names {
+    color: #cccccc;
+}
+
+.manage-list .mic {
+    margin-left: 60px;
+    cursor: pointer;
+}
+
+.manage-list .gmod {
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+@media (max-width: 1600px) {
+    .box {
+        min-width: 1400px;
+        min-height: 700px;
+    }
+    /* 左 */
+    .left {
+        margin-left: 15px;
+        width: 900px;
+        height: 700px;
+    }
+    .LeftHead {
+        width: 100%;
+        height: 50px;
+    }
+    .iconone {
+        width: 19px;
+        height: 19px;
+    }
+    .ThemeName {
+        margin-left: 15px;
+    }
+    .BigVideo {
+        height: 600px;
+    }
+    .BigVideo img {
+        height: 600px;
+    }
+    .echomax img {
+        width: 16px;
+        height: 24px;
+    }
+    .volume img {
+        width: 24px;
+        height: 24px;
+    }
+    .signal img {
+        width: 20px;
+        height: 18px;
+    }
+    .echomax {
+        bottom: 10px;
+        left: 30px;
+    }
+    .volume {
+        bottom: 10px;
+        right: 80px;
+    }
+    .signal {
+        bottom: 13px;
+        right: 30px;
+    }
+    .below {
+        width: 100%;
+        height: 50px;
+    }
+    .below .img img {
+        width: 35px;
+        height: 35px;
+    }
+    .below span {
+        color: #999999;
+        margin: 10px
+    }
+    .below .names,
+    .below .microphones {
+        margin-right: 40px;
+    }
+    /* 中 */
+    .centre {
+        width: 340px;
+        height: 700px;
+        margin: 0px 30px 0px 30px;
+        /* border: 1px solid red; */
+    }
+    .time {
+        width: 100%;
+        height: 50px;
+    }
+    .audience {
+        height: 600px;
+    }
+    .audience .video-list {
+        height: 190px;
+        margin-top: 15px;
+    }
+    .audience .video-list:nth-child(1) {
+        margin-top: 0;
+    }
+    .content {
+        width: 100%;
+        height: 150px;
+    }
+    .control {
+        width: 100%;
+        height: 40px;
+    }
+    .video-list .signals {
+        width: 20px;
+        height: 18px;
+        bottom: 50px;
+        right: 15px;
+    }
+    .control span {
+        width: 150px;
+        height: 20px;
+        top: 0;
+        bottom: 0;
+        left: 15px;
+    }
+    .control .mic {
+        width: 16px;
+        height: 24px;
+        top: 0;
+        bottom: 0;
+        right: 60px;
+    }
+    .control .gmod {
+        width: 20px;
+        height: 24px;
+        top: 0;
+        bottom: 0;
+        right: 15px;
+    }
+    /* 右 */
+    .right {
+        margin-right: 15px;
+        width: 280px;
+        height: 700px;
+        /* border: 1px solid red */
+    }
+    .right .head {
+        width: 100%;
+        height: 50px;
+    }
+    .head .setting,
+    .head .split {
+        width: 48%;
+        height: 50px;
+    }
+    .open {
+        width: 100%;
+        height: 50px;
+    }
+    .green,
+    .blue {
+        width: 35%;
+        height: 30px;
+    }
+    .green {
+        margin-right: 15px;
+    }
+    .blue {
+        margin-left: 15px;
+    }
+    .green span,
+    .blue span {
+        font-size: 13px;
+    }
+    .green img,
+    .blue img {
+        margin-right: 10px;
+    }
+    .manage-list {
+        width: 280px;
+        height: 550px;
+    }
+    .manage-list li {
+        width: 100%;
+        height: 55px;
+    }
+    .manage-list .img {
+        width: 35px;
+        height: 35px;
+        margin: 0px 15px 0px 15px;
+    }
+    .manage-list .img img {
+        width: 35px;
+        height: 35px;
+        border-radius: 3px;
+        margin: 0px;
+    }
+    .manage-list .mic {
+        margin-left: 40px;
+    }
+    .manage-list .gmod {
+        margin-left: 20px;
+    }
+}
+
+@media (max-width: 1500px) {
+    .box {
+        min-width: 1400px;
+        min-height: 700px;
+    }
+    /* 左 */
+    .left {
+        margin-left: 15px;
+        width: 900px;
+        height: 700px;
+    }
+    .LeftHead {
+        width: 100%;
+        height: 50px;
+    }
+    .iconone {
+        width: 19px;
+        height: 19px;
+    }
+    .ThemeName {
+        margin-left: 15px;
+    }
+    .BigVideo {
+        height: 600px;
+    }
+    .BigVideo img {
+        height: 600px;
+    }
+    .echomax img {
+        width: 16px;
+        height: 24px;
+    }
+    .volume img {
+        width: 24px;
+        height: 24px;
+    }
+    .signal img {
+        width: 20px;
+        height: 18px;
+    }
+    .echomax {
+        bottom: 10px;
+        left: 30px;
+    }
+    .volume {
+        bottom: 10px;
+        right: 80px;
+    }
+    .signal {
+        bottom: 13px;
+        right: 30px;
+    }
+    .below {
+        width: 100%;
+        height: 50px;
+    }
+    .below .img img {
+        width: 35px;
+        height: 35px;
+    }
+    .below span {
+        color: #999999;
+        margin: 10px
+    }
+    .below .names,
+    .below .microphones {
+        margin-right: 40px;
+    }
+    /* 中 */
+    .centre {
+        width: 340px;
+        height: 700px;
+        margin: 0px 30px 0px 30px;
+        /* border: 1px solid red; */
+    }
+    .time {
+        width: 100%;
+        height: 50px;
+    }
+    .audience {
+        height: 600px;
+    }
+    .audience .video-list {
+        height: 190px;
+        margin-top: 15px;
+    }
+    .audience .video-list:nth-child(1) {
+        margin-top: 0;
+    }
+    .content {
+        width: 100%;
+        height: 150px;
+    }
+    .control {
+        width: 100%;
+        height: 40px;
+    }
+    .video-list .signals {
+        width: 20px;
+        height: 18px;
+        bottom: 50px;
+        right: 15px;
+    }
+    .control span {
+        width: 150px;
+        height: 20px;
+        top: 0;
+        bottom: 0;
+        left: 15px;
+    }
+    .control .mic {
+        width: 16px;
+        height: 24px;
+        top: 0;
+        bottom: 0;
+        right: 60px;
+    }
+    .control .gmod {
+        width: 20px;
+        height: 24px;
+        top: 0;
+        bottom: 0;
+        right: 15px;
+    }
+    /* 右 */
+    .right {
+        margin-right: 15px;
+        width: 280px;
+        height: 700px;
+        /* border: 1px solid red */
+    }
+    .right .head {
+        width: 100%;
+        height: 50px;
+    }
+    .head .setting,
+    .head .split {
+        width: 48%;
+        height: 50px;
+    }
+    .open {
+        width: 100%;
+        height: 50px;
+    }
+    .green,
+    .blue {
+        width: 35%;
+        height: 30px;
+    }
+    .green {
+        margin-right: 15px;
+    }
+    .blue {
+        margin-left: 15px;
+    }
+    .green span,
+    .blue span {
+        font-size: 13px;
+    }
+    .green img,
+    .blue img {
+        margin-right: 10px;
+    }
+    .manage-list {
+        width: 280px;
+        height: 550px;
+    }
+    .manage-list li {
+        width: 100%;
+        height: 55px;
+    }
+    .manage-list .img {
+        width: 35px;
+        height: 35px;
+        margin: 0px 15px 0px 15px;
+    }
+    .manage-list .img img {
+        width: 35px;
+        height: 35px;
+        border-radius: 3px;
+        margin: 0px;
+    }
+    .manage-list .mic {
+        margin-left: 40px;
+    }
+    .manage-list .gmod {
+        margin-left: 20px;
+    }
+}
+
+@media (max-width: 1400px) {
+    .box {
+        min-width: 1300px;
+        min-height: 600px;
+    }
+    /* 左 */
+    .left {
+        margin-left: 15px;
+        width: 800px;
+        height: 600px;
+        /* border: 1px solid red */
+    }
+    .LeftHead {
+        width: 100%;
+        height: 40px;
+    }
+    .iconone {
+        width: 19px;
+        height: 19px;
+    }
+    .ThemeName {
+        margin-left: 15px;
+    }
+    .BigVideo {
+        height: 500px;
+    }
+    .BigVideo img {
+        height: 500px;
+    }
+    .echomax img {
+        width: 16px;
+        height: 24px;
+    }
+    .volume img {
+        width: 24px;
+        height: 24px;
+    }
+    .signal img {
+        width: 20px;
+        height: 18px;
+    }
+    .echomax {
+        bottom: 10px;
+        left: 30px;
+    }
+    .volume {
+        bottom: 10px;
+        right: 80px;
+    }
+    .signal {
+        bottom: 13px;
+        right: 30px;
+    }
+    .below {
+        width: 100%;
+        height: 60px;
+    }
+    .below .img img {
+        width: 35px;
+        height: 35px;
+    }
+    .below span {
+        color: #999999;
+        margin: 10px
+    }
+    .below .names,
+    .below .microphones {
+        margin-right: 40px;
+    }
+    /* 中 */
+    .centre {
+        width: 330px;
+        height: 600px;
+        margin: 0px 20px 0px 20px;
+        /* border: 1px solid red; */
+    }
+    .time {
+        width: 100%;
+        height: 40px;
+    }
+    .audience {
+        height: 500px;
+    }
+    .audience .video-list {
+        height: 160px;
+        margin-top: 9.5px;
+    }
+    .audience .video-list:nth-child(1) {
+        margin-top: 0;
+    }
+    .content {
+        width: 100%;
+        height: 125px;
+    }
+    .control {
+        width: 100%;
+        height: 35px;
+    }
+    .video-list .signals {
+        width: 20px;
+        height: 18px;
+        bottom: 50px;
+        right: 15px;
+    }
+    .control span {
+        width: 150px;
+        height: 20px;
+        top: 0;
+        bottom: 0;
+        left: 15px;
+    }
+    .control .mic {
+        width: 16px;
+        height: 24px;
+        top: 0;
+        bottom: 0;
+        right: 60px;
+    }
+    .control .gmod {
+        width: 20px;
+        height: 24px;
+        top: 0;
+        bottom: 0;
+        right: 15px;
+    }
+    /* 右 */
+    .right {
+        margin-right: 15px;
+        width: 280px;
+        height: 600px;
+        /* border: 1px solid red */
+    }
+    .right .head {
+        width: 100%;
+        height: 40px;
+    }
+    .head .setting,
+    .head .split {
+        width: 48%;
+        height: 40px;
+    }
+    .open {
+        width: 100%;
+        height: 50px;
+    }
+    .green,
+    .blue {
+        width: 35%;
+        height: 30px;
+    }
+    .green {
+        margin-right: 15px;
+    }
+    .blue {
+        margin-left: 15px;
+    }
+    .green span,
+    .blue span {
+        font-size: 13px;
+    }
+    .green img,
+    .blue img {
+        margin-right: 10px;
+    }
+    .manage-list {
+        width: 280px;
+        height: 450px;
+    }
+    .manage-list li {
+        width: 100%;
+        height: 45px;
+    }
+    .manage-list .img {
+        width: 30px;
+        height: 30px;
+        margin: 0px 15px 0px 15px;
+    }
+    .manage-list .img img {
+        width: 30px;
+        height: 30px;
+        border-radius: 3px;
+    }
+    .manage-list .names {
+        font-size: 14px;
+    }
+    .manage-list .mic {
+        margin-left: 55px;
+    }
+    .manage-list .gmod {
+        margin-left: 20px;
+    }
+}

@@ -14,6 +14,9 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 @JsonAutoDetect(creatorVisibility = Visibility.NONE, fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 public class WebRtctestRequest extends ApiRequest<WebRtctestResponse>
 {
+	private String token;
+	
+	private String ww;
 
 	@Override
 	public Class<WebRtctestResponse> getApiResponseClass()
@@ -28,5 +31,27 @@ public class WebRtctestRequest extends ApiRequest<WebRtctestResponse>
 		// TODO Auto-generated method stub
 		
 	}
+
+	public String getToken()
+	{
+		return token;
+	}
+
+	public void setToken(String token)
+	{
+		this.token = token;
+	}
+
+	public String getWw()
+	{
+		return ww;
+	}
+
+	public void setWw(String ww)
+	{
+		this.ww = ww;
+	}
+	
+	
 
 }

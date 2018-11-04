@@ -77,6 +77,82 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+        <!-- Kurento -->
+		<dependency>
+		    <groupId>org.kurento</groupId>
+		    <artifactId>kurento-client</artifactId>
+		    <version>6.8.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kurento</groupId>
+			<artifactId>kurento-utils-js</artifactId>
+			 <version>6.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>webrtc-adapter</artifactId>
+			<version>6.1.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient</artifactId>
+		    <version>4.5.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpcore</artifactId>
+		    <version>4.4.4</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>fluent-hc</artifactId>
+		    <version>4.5.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>io.netty</groupId>
+		    <artifactId>netty-handler</artifactId>
+		    <version>4.1.5.Final</version>
+		</dependency>
+		<dependency>
+		    <groupId>io.netty</groupId>
+		    <artifactId>netty-buffer</artifactId>
+		    <version>4.1.5.Final</version>
+		</dependency>
+		<dependency>
+		    <groupId>io.netty</groupId>
+		    <artifactId>netty-common</artifactId>
+		    <version>4.1.5.Final</version>
+		</dependency>
+		<dependency>
+		    <groupId>io.netty</groupId>
+		    <artifactId>netty-codec</artifactId>
+		    <version>4.1.5.Final</version>
+		</dependency>
+		<dependency>
+		    <groupId>io.netty</groupId>
+		    <artifactId>netty-transport</artifactId>
+		    <version>4.1.5.Final</version>
+		</dependency>
+		<dependency>
+		    <groupId>io.netty</groupId>
+		    <artifactId>netty-resolver</artifactId>
+		    <version>4.1.5.Final</version>
+		</dependency>
+		<dependency>
+		    <groupId>io.netty</groupId>
+		    <artifactId>netty-handler-proxy</artifactId>
+		    <version>4.1.5.Final</version>
+		</dependency>
+		<dependency>
+		    <groupId>io.netty</groupId>
+		    <artifactId>netty-codec-socks</artifactId>
+		    <version>4.1.5.Final</version>
+		</dependency>
+		<dependency>
+		    <groupId>io.netty</groupId>
+		    <artifactId>netty-codec-http</artifactId>
+		    <version>4.1.5.Final</version>
+		</dependency>
 	</dependencies>
 	
 	<build>

@@ -118,11 +118,15 @@ public class HttpConnectionUtils
 	public static void main(String[] args) throws Exception
 	{
 		Map<String, Object> map = new LinkedHashMap<>();
-		//map.put("meeting_id", "4");
-		map.put("type", "file");
-		map.put("subType", "ogg");
-		//map.put("page_size", "20");
-		map.put("token", "0e4b5868f0f34320aabf9fa0f487d2886add3822");
+//		map.put("chatserver_id", "2");
+//		map.put("company_name", "亦云小慧");
+//		map.put("im_user_names", "fe60b7baf");
+//		map.put("message", "asfdsgfsdgf");
+		//map.put("meeting_id", "108");
+//		map.put("type", "file");
+//		map.put("subType", "ogg");
+		//map.put("im_room_names", "222806b8663549e2b17c4225d3e2b, f808610fbe95458e9b18004d74315, 28cf8bfcbf5e41cfa28b87, 097bcd6f8da94d, 33451bf8da, 0e4107c2e6854, 4c757c6cfd5b, 8a4c3846b32649, 6297de2c997440c982e34ee33, f073c6862c334ef1931032a, 0c47b56dc4b2495, 072190, 086999c13e1541f5, 7b88458312f9454da3cca76a63514e0a");
+		map.put("token", "37ca819c080441e385b3c46a98fa17ac78690a23");//    13603bdecce747c98f0f36e29c231df05a362fa9
 		//map.put("thirdparty_id", "3");
 		//map.put("data", "h/nT8mXYKT5jpiu0QHWLaeVRIjY4zceFRISdbC0x7hq+OXqQLkf1r2zQc3RAOcef");
 		//map.put("im_room_name", "7d38f92f4");
@@ -130,16 +134,18 @@ public class HttpConnectionUtils
 //		map1.put("account", "13679487149");
 //		map1.put("password", "123456");
 		//192.168.105.27:7100;172.28.98.50:7100
-		String countPath = "http://192.168.1.157:7110/outer/registrar/chat/stat/list";
-		//String path = "http://192.168.1.157:7110/business/user/meeting/list";
-		String path = "http://192.168.1.157:7110/chat/file/deal";
-		String path2 = "http://chat.cloudak47.com:7100/business/user/getuser";
+		String path = "http://192.168.105.27:7100/business/user/friend/list";
+		//String path = "http://192.168.1.106:7110/business/user/meeting/get";
+		//String path = "http://chat.pispower.com:7100/business/user/chat/room/list1";
+		//String path = "http://appcc.onecloud.cn/hottub/push/send";
+		//String path = "http://chatoc.cloudak47.com:7101/business/user/meeting/list";
 		String path3 = "http://chat.cloudak47.com:7100/business/user/chat/room/list";
 		String path4 = "http://chat.cloudak47.com:7100/business/user/thirdparty/encrypt/show";
 	//	System.out.println(request(path, map));
 //		String path1 = "http://172.28.98.50:7100/business/user/relate1";
-		System.out.println(uploadFile(path, "horse.ogg"));
-		
+		long start = System.currentTimeMillis();
+		System.out.println(request(path, map));//"me_join_at":1534815632000  //"updated_at":1534815579928  //"updated_at":1534815579928
+		System.out.println(System.currentTimeMillis()-start);
 	}
 	
 	 /**
@@ -149,7 +155,7 @@ public class HttpConnectionUtils
      * @param uploadFilePaths：需要上传的文件路径，数组
      * @return
      */
-    @SuppressWarnings("finally")
+    @SuppressWarnings("finally")//1534815632000
 	public static String uploadFile(String actionUrl, String... uploadFilePaths) {
         String end = "\r\n";
         String twoHyphens = "--";

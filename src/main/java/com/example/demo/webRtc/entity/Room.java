@@ -25,7 +25,6 @@ public class Room implements Closeable
 
 	@Override
 	public void close()
-			throws IOException
 	{
 		for (final UserSession user : participants.values())
 		{
@@ -56,7 +55,6 @@ public class Room implements Closeable
 		});
 
 	}
-
 
 	public Room(String name, MediaPipeline pipeline)
 	{
@@ -95,12 +93,16 @@ public class Room implements Closeable
 				participantsArray.add(participantName);
 			}
 		}
+	    final JsonObject existingParticipantsMsg = new JsonObject();
+	    existingParticipantsMsg.addProperty("action", "existingParticipants");
+	    existingParticipantsMsg.add("data", participantsArray);
+	    user.sendMessage(existingParticipantsMsg);
 	}
 
 	private Collection<String> joinRoom(UserSession newParticipant)
 	{
 		final JsonObject newParticipantMsg = new JsonObject();
-		newParticipantMsg.addProperty("id", "newParticipantArrived");
+		newParticipantMsg.addProperty("action", "newParticipantArrived");
 		newParticipantMsg.addProperty("name", newParticipant.getName());
 
 		final List<String> participantsList = new ArrayList<>(participants.values().size());
@@ -139,7 +141,7 @@ public class Room implements Closeable
 		participants.remove(name);
 		final List<String> unnotifiedParticipants = new ArrayList<>();
 		final JsonObject participantLeftJson = new JsonObject();
-		participantLeftJson.addProperty("id", "participantLeft");
+		participantLeftJson.addProperty("action", "participantLeft");
 		participantLeftJson.addProperty("name", name);
 		for (final UserSession participant : participants.values())
 		{

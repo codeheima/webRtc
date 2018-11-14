@@ -4,9 +4,9 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-
 import org.kurento.client.Continuation;
 import org.kurento.client.EventListener;
+import org.kurento.client.IceCandidate;
 import org.kurento.client.IceCandidateFoundEvent;
 import org.kurento.client.MediaPipeline;
 import org.kurento.client.WebRtcEndpoint;
@@ -19,6 +19,7 @@ import com.google.gson.JsonObject;
 public class UserSession implements Closeable
 {
 	private final String name;
+
 	private final WebSocketSession session;
 
 	private final MediaPipeline pipeline;
@@ -43,7 +44,7 @@ public class UserSession implements Closeable
 			public void onEvent(IceCandidateFoundEvent event)
 			{
 				JsonObject response = new JsonObject();
-				response.addProperty("id", "iceCandidate");
+				response.addProperty("action", "iceCandidate");
 				response.addProperty("name", name);
 				response.add("candidate", JsonUtils.toJsonObject(event.getCandidate()));
 				try
@@ -165,7 +166,7 @@ public class UserSession implements Closeable
 
 		final String ipSdpAnswer = this.getEndpointForUser(sender).processOffer(sdpOffer);
 		final JsonObject scParams = new JsonObject();
-		scParams.addProperty("id", "receiveVideoAnswer");
+		scParams.addProperty("action", "receiveVideoAnswer");
 		scParams.addProperty("name", sender.getName());
 		scParams.addProperty("sdpAnswer", ipSdpAnswer);
 
@@ -188,7 +189,7 @@ public class UserSession implements Closeable
 				public void onEvent(IceCandidateFoundEvent event)
 				{
 					JsonObject response = new JsonObject();
-					response.addProperty("id", "iceCandidate");
+					response.addProperty("action", "iceCandidate");
 					response.addProperty("name", sender.getName());
 					response.add("candidate", JsonUtils.toJsonObject(event.getCandidate()));
 					try
@@ -210,6 +211,21 @@ public class UserSession implements Closeable
 
 		return incomming;
 
+	}
+
+	public void addCandidate(IceCandidate candidate, String name)
+	{
+		if (this.name.compareTo(name) == 0)
+		{
+			outgoingMedia.addIceCandidate(candidate);
+		} else
+		{
+			WebRtcEndpoint webRtc = incomingMedia.get(name);
+			if (webRtc != null)
+			{
+				webRtc.addIceCandidate(candidate);
+			}
+		}
 	}
 
 }

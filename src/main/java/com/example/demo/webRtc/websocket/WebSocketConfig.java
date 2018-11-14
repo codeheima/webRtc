@@ -8,7 +8,7 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 @Configuration
 public class WebSocketConfig {
 	
-	private static final String DEFAULT_KMS="ws://192.168.33.134:8888/kurento";
+	private static final String DEFAULT_KMS="ws://192.168.1.113:8888/kurento";
 	@Bean
 	public ServerEndpointExporter serverEndpointExporter() {
 		return new ServerEndpointExporter();

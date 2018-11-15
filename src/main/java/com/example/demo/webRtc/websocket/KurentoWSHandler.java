@@ -2,8 +2,6 @@ package com.example.demo.webRtc.websocket;
 
 import java.io.IOException;
 
-import javax.websocket.Session;
-
 import org.kurento.client.IceCandidate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;

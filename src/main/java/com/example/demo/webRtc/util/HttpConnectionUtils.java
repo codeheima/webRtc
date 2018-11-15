@@ -126,7 +126,7 @@ public class HttpConnectionUtils
 //		map.put("type", "file");
 //		map.put("subType", "ogg");
 		//map.put("im_room_names", "222806b8663549e2b17c4225d3e2b, f808610fbe95458e9b18004d74315, 28cf8bfcbf5e41cfa28b87, 097bcd6f8da94d, 33451bf8da, 0e4107c2e6854, 4c757c6cfd5b, 8a4c3846b32649, 6297de2c997440c982e34ee33, f073c6862c334ef1931032a, 0c47b56dc4b2495, 072190, 086999c13e1541f5, 7b88458312f9454da3cca76a63514e0a");
-		map.put("token", "4514fc9a1c124c21948a1d62f04a6eaa261b26f1");//    13603bdecce747c98f0f36e29c231df05a362fa9
+		map.put("token", "db0ff24d29e34696aaec101af35590497b9a264d");//    13603bdecce747c98f0f36e29c231df05a362fa9
 		//map.put("thirdparty_id", "3");
 		//map.put("data", "h/nT8mXYKT5jpiu0QHWLaeVRIjY4zceFRISdbC0x7hq+OXqQLkf1r2zQc3RAOcef");
 		//map.put("im_room_name", "7d38f92f4");
@@ -134,7 +134,7 @@ public class HttpConnectionUtils
 //		map1.put("account", "13679487149");
 //		map1.put("password", "123456");
 		//192.168.105.27:7100;172.28.98.50:7100
-		String path = "http://192.168.105.27:7100/business/user/branch/list";
+		String path = "http://192.168.1.106:7110/business/user/branch/list";
 		//String path = "http://192.168.1.106:7110/business/user/meeting/get";
 		//String path = "http://chat.pispower.com:7100/business/user/chat/room/list1";
 		//String path = "http://appcc.onecloud.cn/hottub/push/send";

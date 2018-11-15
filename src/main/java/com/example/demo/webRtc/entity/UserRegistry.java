@@ -19,8 +19,6 @@ package com.example.demo.webRtc.entity;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.websocket.Session;
-
 import org.springframework.web.socket.WebSocketSession;
 
 /**

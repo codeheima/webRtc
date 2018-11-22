@@ -891,3 +891,11 @@ pidfile="/var/tmp/turnserver.pid"
 #no-tlsv1
 #no-tlsv1_1
 #no-tlsv1_2
+
+
+
+###################################证书转换########################################
+p12转keystore
+keytool -v -importkeystore -srckeystore temp.p12 -srcstoretype PKCS12 -destkeystore temp.keystore -deststoretype JKS
+pem转p12
+openssl pkcs12 -export -in pispower.com.pem -out pispower.p12

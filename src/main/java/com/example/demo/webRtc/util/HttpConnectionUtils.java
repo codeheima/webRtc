@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,11 +26,19 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.commons.io.IOUtils;
-import org.springframework.util.StringUtils;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 public class HttpConnectionUtils
 {
+	
+	//private final static ExecutorService exe = Executors.newFixedThreadPool(800);
+	
+	private final static File timefile = new File("time.txt");
+	
+	private final static Gson gson = new GsonBuilder().create();
 	public static <K,V> String request(String path, Map<K, V> map)
 			throws Exception
 	{
@@ -117,35 +126,82 @@ public class HttpConnectionUtils
 	
 	public static void main(String[] args) throws Exception
 	{
+		FileWriter fw = new FileWriter(timefile,true);
 		Map<String, Object> map = new LinkedHashMap<>();
+//		map.put("xiaohuifrom", "qwer");
+//		map.put("xiaohuiIds", "qwerty");
+//		map.put("roomName", "222806b8663549e2b17c4225d3e2b");
 //		map.put("chatserver_id", "2");
 //		map.put("company_name", "亦云小慧");
-		map.put("im_room_name", "debec36517154e5");
-//		map.put("message", "asfdsgfsdgf");
-		//map.put("meeting_id", "108");
+	//map.put("im_user_name", "277bd2b6d6784");//		map.put("message", "asfdsgfsdgf");		//map.put("meeting_id", "108");
 //		map.put("type", "file");
-//		map.put("subType", "ogg");
-		//map.put("im_room_names", "222806b8663549e2b17c4225d3e2b, f808610fbe95458e9b18004d74315, 28cf8bfcbf5e41cfa28b87, 097bcd6f8da94d, 33451bf8da, 0e4107c2e6854, 4c757c6cfd5b, 8a4c3846b32649, 6297de2c997440c982e34ee33, f073c6862c334ef1931032a, 0c47b56dc4b2495, 072190, 086999c13e1541f5, 7b88458312f9454da3cca76a63514e0a");
-		map.put("token", "db0ff24d29e34696aaec101af35590497b9a264d");//    13603bdecce747c98f0f36e29c231df05a362fa9
+		//map.put("im_user_name", "88d149");
+		//map.put("token", "e3b74e7708ef44b5888f560db779e69f95aa7549");
+		map.put("zz", "safsaf");
+		map.put("zx", "asfsdf");
+		//map.put("im_user_name", "aa96d0a8927a4b");
+		//map.put("chatserver_id", "1");//    13603bdecce747c98f0f36e29c231df05a362fa9
 		//map.put("thirdparty_id", "3");
 		//map.put("data", "h/nT8mXYKT5jpiu0QHWLaeVRIjY4zceFRISdbC0x7hq+OXqQLkf1r2zQc3RAOcef");
-		//map.put("im_room_name", "7d38f92f4");
+		//map.put("im_room_names", "78464567ca774ee89807f,51e8da");//,173791b6e14540b9aff0,f3d5845c51054cdaba1eed4,ba60f5e3737042a,0ac27ed8678c4fe38bcc236a38a3bf0,1c77828113e24f6f81aefc,78464567ca774ee89807f,ba8ea6f1f4d7490889c5598435cfea
 //		Map<String, String> map1 = new LinkedHashMap<>();
-//		map1.put("account", "13679487149");
-//		map1.put("password", "123456");
+//		map.put("account", "13679487149");
+//		map.put("password", "123456");
+//		map.put("platform_type", "4");
 		//192.168.105.27:7100;172.28.98.50:7100
-		String path = "http://192.168.1.106:7110/business/user/branch/list";
-		//String path = "http://192.168.1.106:7110/business/user/meeting/get";
-		//String path = "http://chat.pispower.com:7100/business/user/chat/room/list1";
+		//String path = "http://192.168.1.106:7110/mock/thirdparty/chat/room/do_send";
+		//String path = "https://192.168.1.106:7143/business/user/get";
+		//String path = "http://192.168.1.106:8110/hottub/user/group/list";
 		//String path = "http://appcc.onecloud.cn/hottub/push/send";
-		//String path = "http://chatoc.cloudak47.com:7101/business/user/meeting/list";
-		String path3 = "http://chat.cloudak47.com:7100/business/user/chat/room/list";
-		String path4 = "http://chat.cloudak47.com:7100/business/user/thirdparty/encrypt/show";
+		//String path = "http://chatoc.cloudak47.com:7101/business/user/login1";
+		String path = "http://192.168.1.113:7110/chat//file/deal";
+		//String path4 = "http://chat.cloudak47.com:7100/business/user/thirdparty/encrypt/show";
 	//	System.out.println(request(path, map));
 //		String path1 = "http://172.28.98.50:7100/business/user/relate1";
-		long start = System.currentTimeMillis();
-		System.out.println(request(path, map));//"me_join_at":1534815632000  //"updated_at":1534815579928  //"updated_at":1534815579928
-		System.out.println(System.currentTimeMillis()-start);
+	//	while(true) {
+//			Future<String> submit = exe.submit(new Callable<String>()
+//			{
+//
+//				@Override
+//				public String call()
+//						throws Exception
+//				{
+//					
+//					return request(path, map);
+//				}
+//			});
+//			exe.execute(()->{
+//				try
+//				{
+//					System.out.println(String.format("thread:%dstart\n", Thread.currentThread().getId()));
+					//map.put("content", UUID.randomUUID());
+		while(true) {
+					long start = System.currentTimeMillis();
+		
+					//String response = request(path, map);
+					String response = uploadFile(path, map ,"0.png");
+					long total = System.currentTimeMillis()-start;
+//					JsonObject json = gson.fromJson(response, JsonObject.class);
+//					Long openfire_time = json.get("openfireTime").getAsLong();
+//					Long chatserver_total = json.get("chatserverTime").getAsLong();
+//					Long chatserver_time = chatserver_total-openfire_time;
+//					Long clientIoTime = total-chatserver_total;
+//					fw.write(openfire_time+"\t"+chatserver_time+"\t"+chatserver_total+"\t"+clientIoTime+"\t"+total+"\n");
+//					fw.flush();
+					System.out.println(response);
+					System.out.println(total);
+					
+					Thread.sleep(30000);
+		}
+//					java.lang.Thread.sleep(500);
+//				} catch (Exception e)
+//				{
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			});String
+//		}
+		
 	}
 	
 	 /**
@@ -156,9 +212,9 @@ public class HttpConnectionUtils
      * @return
      */
     @SuppressWarnings("finally")//1534815632000
-	public static String uploadFile(String actionUrl, String... uploadFilePaths) {
-        String end = "\r\n";
-        String twoHyphens = "--";
+	public static String uploadFile(String actionUrl, Map<String, Object> map,String... uploadFilePaths) {
+        String end = "";
+        String twoHyphens = "";
         String boundary = "*****";
 
         DataOutputStream ds = null;
@@ -193,6 +249,7 @@ public class HttpConnectionUtils
 
             // 设置DataOutputStream
             ds = new DataOutputStream(httpURLConnection.getOutputStream());
+            ds.writeBytes(getStrParams(map));
             for (int i = 0; i < uploadFilePaths.length; i++) {
                 String uploadFile = uploadFilePaths[i];
                 String filename = uploadFile.substring(uploadFile.lastIndexOf("//") + 1);
@@ -266,6 +323,19 @@ public class HttpConnectionUtils
             return resultBuffer.toString();
         }
     }
-
-
-}
+    
+    private static String getStrParams(Map<String,Object> strParams){
+        StringBuilder strSb = new StringBuilder();
+        for (Map.Entry<String, Object> entry : strParams.entrySet() ){
+            strSb.append("--")
+                    .append("*****")
+                    .append("\r\n")
+                    .append("Content-Disposition: form-data; name=\"" + entry.getKey() + "\"" + "\r\n")
+                    .append("Content-Type: text/plain; charset=utf-8" + "\r\n")
+                    .append("Content-Transfer-Encoding: 8bit" + "\r\n")
+                    .append("\r\n")// 参数头设置完以后需要两个换行，然后才是参数内容
+                    .append(entry.getValue())
+                    .append("\r\n");
+        }
+        return strSb.toString();
+    }}

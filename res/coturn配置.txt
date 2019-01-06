@@ -899,3 +899,21 @@ p12转keystore
 keytool -v -importkeystore -srckeystore temp.p12 -srcstoretype PKCS12 -destkeystore temp.keystore -deststoretype JKS
 pem转p12
 openssl pkcs12 -export -in pispower.com.pem -out pispower.p12
+
+
+
+######################查看服务器端线程资源占用情况#####################################
+1.首先查看服务器cpu使用情况:top -c;
+2.查看进程的线程情况:ps -mp pid -o THREAD,tid,time
+3.将线程id转为16进制 :printf "%x\n" tid
+4.打印线程堆栈信息:jstack pid |grep tid -A 30
+5.使用jstat -gcutil命令查看进程的内存情况:jstat -gcutil pid 2000 10
+
+
+
+
+
+
+
+
+

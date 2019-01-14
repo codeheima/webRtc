@@ -33,7 +33,7 @@ public class WebRtcApplication implements WebSocketConfigurer
 		SpringApplication.run(WebRtcApplication.class, args);
 	}
 
-	@RequestMapping("/")
+	@RequestMapping("/test")
 	public String index()
 	{
 

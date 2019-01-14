@@ -6,6 +6,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import org.kurento.client.Continuation;
 import org.kurento.client.EventListener;
+import org.kurento.client.Hub;
+import org.kurento.client.HubPort;
 import org.kurento.client.IceCandidate;
 import org.kurento.client.IceCandidateFoundEvent;
 import org.kurento.client.MediaPipeline;
@@ -28,7 +30,12 @@ public class UserSession implements Closeable
 	private final WebRtcEndpoint outgoingMedia;
 	private final ConcurrentMap<String, WebRtcEndpoint> incomingMedia = new ConcurrentHashMap<>();
 
-	public UserSession(final String name, String roomName, final WebSocketSession session, MediaPipeline pipeline)
+	private HubPort compositeInputHubPort;
+
+	//private HubPort compositeOutputHubPort;
+
+	public UserSession(final String name, String roomName, final WebSocketSession session, MediaPipeline pipeline,
+			Hub composite, HubPort compositeOutputHubPort)
 	{
 
 		this.pipeline = pipeline;
@@ -36,6 +43,10 @@ public class UserSession implements Closeable
 		this.session = session;
 		this.roomName = roomName;
 		this.outgoingMedia = new WebRtcEndpoint.Builder(pipeline).build();
+		this.compositeInputHubPort = new HubPort.Builder(composite).build();
+		compositeInputHubPort.connect(outgoingMedia);
+		outgoingMedia.connect(compositeInputHubPort);
+		//this.compositeOutputHubPort = compositeOutputHubPort;
 
 		this.outgoingMedia.addIceCandidateFoundListener(new EventListener<IceCandidateFoundEvent>()
 		{
@@ -130,6 +141,7 @@ public class UserSession implements Closeable
 					throws Exception
 			{
 			}
+
 		});
 
 	}
@@ -207,7 +219,8 @@ public class UserSession implements Closeable
 			});
 			incomingMedia.put(sender.getName(), incomming);
 		}
-		sender.getOutgoingWebRtcPeer().connect(incomming);
+		//sender.getOutgoingWebRtcPeer().connect(incomming);
+		this.compositeInputHubPort.connect(incomming);
 
 		return incomming;
 

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+	<script>
+	function upload(){
+		/*  $.ajax({
+	          url : "http://192.168.1.113:7110/business/user/space/file/deal",
+	          type : "POST",
+	          contentType: "application/x-www-form-urlencoded;charset=utf-8",
+	          data : $("form").serialize(),
+	          dataType : "text",
+	          headers: {
+	        	  Oc_Platform_AppVersion: "2.8.1",
+	              Oc_Chatserver_MinVersion:"3.0.0"
+	          },
+	          success : function(result) {
+	            console.log(result);
+	          },
+	          error:function(msg){
+	            console.log(msg);
+	          }
+	        }) */
+		//创建异步对象  
+		var xhr = new XMLHttpRequest();
+		//设置请求的类型及url
+		//post请求一定要添加请求头才行不然会报错
+		xhr.open('post', 'http://192.168.1.113:7110/business/user/space/file/deal');
+		//xhr.setRequestHeader("Content-type","multipart/form-data;charset=utf-8");
+		xhr.setRequestHeader("Oc_Chatserver_MinVersion","3.0.0");
+		xhr.setRequestHeader("Oc_Platform_AppVersion","2.8.1");
+		//发送请求
+		var fileObj = document.querySelector("form input[type='file']").files[0];
+		var duration = document.querySelector("form input[name='duration']").value;
+		var comment = document.querySelector("form input[name='comment']").value;
+		var record_time = document.querySelector("form input[name='record_time']").value;
+		var token = document.querySelector("form input[name='token']").value;
+		var catalog = document.querySelector("form select[name='catalog']").value;
+		var form = new FormData();
+		form.append("file",fileObj);
+		form.append("duration",duration);
+		form.append("comment",encodeURI(comment));
+		form.append("record_time",record_time);
+		form.append("token",token);
+		form.append("catalog",catalog);
+		xhr.send(form);
+		xhr.onreadystatechange = function () {
+		    // 这步为判断服务器是否正确响应
+		  if (xhr.readyState == 4 && xhr.status == 200) {
+		    console.log(xhr.responseText);
+		  } 
+		}; 
+	}
+	</script>
+</head>
+<body>
+	<div>
+		
+		<form>
+			<fieldset>
+				<legend>spacefile upload</legend>
+					描述:<input name="comment"/>
+					时长：<input name="duration">
+					制作时间：<input name="record_time" value="">
+					作品:<input type="file"/>
+					作品分类:<select name="catalog">
+						<option value="1">会议纪要</option>
+						<option value="2">录屏文件</option>
+					</select>
+					<input type="hidden" name="token" value="a57bd794dfa4420297bd7333c5f9001362229dab">
+					<input type="button" value="提交" onclick="upload()">
+			</fieldset>
+		</form>
+		
+	</div>
+	<table>
+		<tr>
+			<td>服务名：</td>
+			<td>ChatServer</td>
+		</tr>
+	</table>
+</body>
+</html>

@@ -6,8 +6,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import org.kurento.client.Continuation;
 import org.kurento.client.EventListener;
-import org.kurento.client.Hub;
-import org.kurento.client.HubPort;
 import org.kurento.client.IceCandidate;
 import org.kurento.client.IceCandidateFoundEvent;
 import org.kurento.client.MediaPipeline;
@@ -18,7 +16,7 @@ import org.springframework.web.socket.WebSocketSession;
 
 import com.google.gson.JsonObject;
 
-public class CompositeUserSession implements Closeable
+public class UserSession implements Closeable
 {
 	private final String name;
 
@@ -30,12 +28,7 @@ public class CompositeUserSession implements Closeable
 	private final WebRtcEndpoint outgoingMedia;
 	private final ConcurrentMap<String, WebRtcEndpoint> incomingMedia = new ConcurrentHashMap<>();
 
-	private HubPort compositeInputHubPort;
-
-	//private HubPort compositeOutputHubPort;
-
-	public CompositeUserSession(final String name, String roomName, final WebSocketSession session, MediaPipeline pipeline,
-			Hub composite, HubPort compositeOutputHubPort)
+	public UserSession(final String name, String roomName, final WebSocketSession session, MediaPipeline pipeline)
 	{
 
 		this.pipeline = pipeline;
@@ -43,10 +36,6 @@ public class CompositeUserSession implements Closeable
 		this.session = session;
 		this.roomName = roomName;
 		this.outgoingMedia = new WebRtcEndpoint.Builder(pipeline).build();
-		this.compositeInputHubPort = new HubPort.Builder(composite).build();
-		compositeInputHubPort.connect(outgoingMedia);
-		outgoingMedia.connect(compositeInputHubPort);
-		//this.compositeOutputHubPort = compositeOutputHubPort;
 
 		this.outgoingMedia.addIceCandidateFoundListener(new EventListener<IceCandidateFoundEvent>()
 		{
@@ -141,7 +130,6 @@ public class CompositeUserSession implements Closeable
 					throws Exception
 			{
 			}
-
 		});
 
 	}
@@ -172,7 +160,7 @@ public class CompositeUserSession implements Closeable
 
 	}
 
-	public void receiveVideoFrom(CompositeUserSession sender, String sdpOffer)
+	public void receiveVideoFrom(UserSession sender, String sdpOffer)
 			throws IOException
 	{
 
@@ -186,7 +174,7 @@ public class CompositeUserSession implements Closeable
 		this.getEndpointForUser(sender).gatherCandidates();
 	}
 
-	private WebRtcEndpoint getEndpointForUser(final CompositeUserSession sender)
+	private WebRtcEndpoint getEndpointForUser(final UserSession sender)
 	{
 		if (sender.getName().equals(this.name))
 			return outgoingMedia;
@@ -219,8 +207,7 @@ public class CompositeUserSession implements Closeable
 			});
 			incomingMedia.put(sender.getName(), incomming);
 		}
-		//sender.getOutgoingWebRtcPeer().connect(incomming);
-		this.compositeInputHubPort.connect(incomming);
+		sender.getOutgoingWebRtcPeer().connect(incomming);
 
 		return incomming;
 

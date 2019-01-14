@@ -8,12 +8,8 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.kurento.client.Composite;
 import org.kurento.client.Continuation;
-import org.kurento.client.HubPort;
 import org.kurento.client.MediaPipeline;
-import org.kurento.client.MediaProfileSpecType;
-import org.kurento.client.RecorderEndpoint;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.google.gson.JsonArray;
@@ -21,27 +17,16 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class CompositeRoom implements Closeable
+public class Room implements Closeable
 {
-	private final ConcurrentMap<String, CompositeUserSession> participants = new ConcurrentHashMap<>();
+	private final ConcurrentMap<String, UserSession> participants = new ConcurrentHashMap<>();
 	private final MediaPipeline pipeline;
 	private final String name;
-
-	private Composite composite = null;
-
-	private RecorderEndpoint recorderEndpoint;
-
-	private HubPort compoisteOutputHubport;
-
-	public HubPort getCompositeOutputHubport()
-	{
-		return compoisteOutputHubport;
-	}
 
 	@Override
 	public void close()
 	{
-		for (final CompositeUserSession user : participants.values())
+		for (final UserSession user : participants.values())
 		{
 			try
 			{
@@ -71,12 +56,10 @@ public class CompositeRoom implements Closeable
 
 	}
 
-	public CompositeRoom(String name, MediaPipeline pipeline)
+	public Room(String name, MediaPipeline pipeline)
 	{
 		this.name = name;
 		this.pipeline = pipeline;
-		this.composite = new Composite.Builder(pipeline).build();
-		this.compoisteOutputHubport = new HubPort.Builder(composite).build();
 
 	}
 
@@ -85,21 +68,10 @@ public class CompositeRoom implements Closeable
 		return name;
 	}
 
-	public CompositeUserSession join(String userName, WebSocketSession session)
+	public UserSession join(String userName, WebSocketSession session)
 			throws IOException
 	{
-		// 创建集线器
-		final CompositeUserSession participant = new CompositeUserSession(userName, this.name, session, this.pipeline, this.composite,
-				this.compoisteOutputHubport);
-		if (participants.size() == 1)
-		{
-			this.recorderEndpoint = new RecorderEndpoint.Builder(pipeline,
-					"file:///home/clouder/Desktop" + getName() + ".webm").withMediaProfile(MediaProfileSpecType.MP4)
-							.build();
-			compoisteOutputHubport.connect(recorderEndpoint);
-			recorderEndpoint.connect(compoisteOutputHubport);
-			recorderEndpoint.record();
-		}
+		final UserSession participant = new UserSession(userName, this.name, session, pipeline);
 		joinRoom(participant);
 		participants.put(participant.getName(), participant);
 		// 提醒其他成員
@@ -108,12 +80,12 @@ public class CompositeRoom implements Closeable
 
 	}
 
-	public void sendParticipantNames(CompositeUserSession user)
+	public void sendParticipantNames(UserSession user)
 			throws IOException
 	{
 
 		final JsonArray participantsArray = new JsonArray();
-		for (final CompositeUserSession participant : this.getParticipants())
+		for (final UserSession participant : this.getParticipants())
 		{
 			if (!participant.equals(user))
 			{
@@ -121,21 +93,21 @@ public class CompositeRoom implements Closeable
 				participantsArray.add(participantName);
 			}
 		}
-		final JsonObject existingParticipantsMsg = new JsonObject();
-		existingParticipantsMsg.addProperty("action", "existingParticipants");
-		existingParticipantsMsg.add("data", participantsArray);
-		user.sendMessage(existingParticipantsMsg);
+	    final JsonObject existingParticipantsMsg = new JsonObject();
+	    existingParticipantsMsg.addProperty("action", "existingParticipants");
+	    existingParticipantsMsg.add("data", participantsArray);
+	    user.sendMessage(existingParticipantsMsg);
 	}
 
-	private Collection<String> joinRoom(CompositeUserSession participant2)
+	private Collection<String> joinRoom(UserSession newParticipant)
 	{
 		final JsonObject newParticipantMsg = new JsonObject();
 		newParticipantMsg.addProperty("action", "newParticipantArrived");
-		newParticipantMsg.addProperty("name", participant2.getName());
+		newParticipantMsg.addProperty("name", newParticipant.getName());
 
 		final List<String> participantsList = new ArrayList<>(participants.values().size());
 
-		for (final CompositeUserSession participant : participants.values())
+		for (final UserSession participant : participants.values())
 		{
 			try
 			{
@@ -151,7 +123,7 @@ public class CompositeRoom implements Closeable
 
 	}
 
-	public Collection<CompositeUserSession> getParticipants()
+	public Collection<UserSession> getParticipants()
 	{
 		return participants.values();
 	}
@@ -159,7 +131,7 @@ public class CompositeRoom implements Closeable
 	public void leave(UserSession user)
 			throws IOException
 	{
-		this.removeParticipant(user.getName());
+		this.removeParticipant(name);
 		user.close();
 	}
 
@@ -171,7 +143,7 @@ public class CompositeRoom implements Closeable
 		final JsonObject participantLeftJson = new JsonObject();
 		participantLeftJson.addProperty("action", "participantLeft");
 		participantLeftJson.addProperty("name", name);
-		for (final CompositeUserSession participant : participants.values())
+		for (final UserSession participant : participants.values())
 		{
 			try
 			{

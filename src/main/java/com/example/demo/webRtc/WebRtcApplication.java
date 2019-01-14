@@ -26,7 +26,7 @@ import com.example.demo.webRtc.websocket.KurentoWSHandler;
 @EnableWebSocket
 public class WebRtcApplication implements WebSocketConfigurer
 {
-	final static String DEFAULT_KMS_WS_URI = "ws://192.168.1.113:8888/kurento";
+	final static String DEFAULT_KMS_WS_URI = "ws://61.146.164.46:8888/kurento";
 
 	public static void main(String[] args)
 	{

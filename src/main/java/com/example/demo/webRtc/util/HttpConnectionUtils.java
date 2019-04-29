@@ -20,8 +20,11 @@ import java.time.Instant;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.LongStream;
@@ -117,8 +120,7 @@ public class HttpConnectionUtils
 	{
 		StringBuilder sb = new StringBuilder();
 
-		map.forEach((K k, V v) ->
-		{
+		map.forEach((K k, V v) -> {
 			// if(!StringUtils.isEmpty((String)v)) {
 			sb.append(k);
 			sb.append("=");
@@ -135,96 +137,14 @@ public class HttpConnectionUtils
 	{
 		FileWriter fw = new FileWriter(timefile, true);
 		Map<String, Object> map = new LinkedHashMap<>();
-		// map.put("xiaohuifrom", "qwer");
-		// map.put("xiaohuiIds", "qwerty");
-		// map.put("roomName", "222806b8663549e2b17c4225d3e2b");
-		// map.put("chatserver_id", "2");
-		// map.put("company_name", "亦云小慧");
-		// map.put("im_user_name", "277bd2b6d6784");// map.put("message",
-		// "asfdsgfsdgf"); //map.put("meeting_id", "108");
-		// map.put("type", "file");
-		// map.put("im_user_name", "88d149");
-		map.put("token", "4fff3f13120f44b093487a6ee84ca7824f94b3f5");
-		map.put("catalog", "1");
-		map.put("file_id", "19");
-		map.put("record_time", System.currentTimeMillis());
-		// map.put("type", "3");
-		map.put("comment", "测试");
-		map.put("file_content", "这是一个忧伤sdf");
-		// map.put("duration_sort", "desc");
-		// map.put("record_time_sort", "asc");
-		// map.put("token", "a55b9147202947b8bf916a79cca0d50457ba935c");
-		// map.put("im_user_name", "aa96d0a8927a4b");
-		// map.put("chatserver_id", "1");// 13603bdecce747c98f0f36e29c231df05a362fa9
-		// map.put("thirdparty_id", "3");
-		// map.put("data",
-		// "h/nT8mXYKT5jpiu0QHWLaeVRIjY4zceFRISdbC0x7hq+OXqQLkf1r2zQc3RAOcef");
-		// map.put("im_room_names",
-		// "78464567ca774ee89807f,51e8da");//,173791b6e14540b9aff0,f3d5845c51054cdaba1eed4,ba60f5e3737042a,0ac27ed8678c4fe38bcc236a38a3bf0,1c77828113e24f6f81aefc,78464567ca774ee89807f,ba8ea6f1f4d7490889c5598435cfea
-		// Map<String, String> map1 = new LinkedHashMap<>();
-		// map.put("account", "13679487149");
-		// map.put("password", "123456");
-		// map.put("platform_type", "4");
-		// 192.168.105.27:7100;172.28.98.50:7100
-		// String path = "http://192.168.1.106:7110/mock/thirdparty/chat/room/do_send";
-		// String path = "https://192.168.1.106:7143/business/user/get";
-		// String path = "http://192.168.1.106:8110/hottub/user/group/list";
-		// String path = "http://appcc.onecloud.cn/hottub/push/send";
-		// String path = "http://chatoc.cloudak47.com:7101/business/user/login1";
-		String path = "http://192.168.1.113:7110/business/user/space/file/deal";
-		System.out.println(uploadFile(path, map, "horse.ogg"));
-		// String path = "https://chatoc.onecloud.cn:7100/business/user/login1";
-		// String path = "https://chatoc.onecloud.cn:7100/business/user/chat/room/list";
-		// String path4 =
-		// "http://chat.cloudak47.com:7100/business/user/thirdparty/encrypt/show";
-		// System.out.println(request(path, map));
-		// String path1 = "http://172.28.98.50:7100/business/user/relate1";
-		// while(true) {
-		// Future<String> submit = exe.submit(new Callable<String>()
-		// {
-		//
-		// @Override
-		// public String call()
-		// throws Exception
-		// {
-		//
-		// return request(path, map);
-		// }
-		// });
-		// exe.execute(()->{
-		// try
-		// {
-		// System.out.println(String.format("thread:%dstart\n",
-		// Thread.currentThread().getId()));
-		// map.put("content", UUID.randomUUID());
-		// while(true) {
-		// long start = System.currentTimeMillis();
-
-		// String response = request(path, map);
-		// String response = uploadFile(path, map ,"horse.ogg");
-		// long total = System.currentTimeMillis()-start;
-		// JsonObject json = gson.fromJson(response, JsonObject.class);
-		// Long openfire_time = json.get("openfireTime").getAsLong();
-		// Long chatserver_total = json.get("chatserverTime").getAsLong();
-		// Long chatserver_time = chatserver_total-openfire_time;
-		// Long clientIoTime = total-chatserver_total;
-		// fw.write(openfire_time+"\t"+chatserver_time+"\t"+chatserver_total+"\t"+clientIoTime+"\t"+total+"\n");
-		// fw.flush();
-		// System.out.println(response);
-		// System.out.println(total);
-		// long objectFieldOffset =
-		// UNSAFE.objectFieldOffset(HttpConnectionUtils.class.getDeclaredField("gson"));
-		// Thread.sleep(30000);
-		// }
-		// System.out.println(objectFieldOffset);
-		// java.lang.Thread.sleep(500);
-		// } catch (Exception e)
-		// {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// });String
-		// }
+		// map.put("im_user_name", "88d149");18034ee43de048eaa2bf040389c42421a4101d4b
+		//map.put("token", "18034ee43de048eaa2bf040389c42421a4101d4b");// d6428a5e24c14cc186c61feac634d2d344a557a4
+//		map.put("catalog", "2");
+//		map.put("record_time", System.currentTimeMillis());
+//		map.put("comment", "public");
+//		map.put("file_content", "public文件");
+		String path = "https://chatoc.cloudak47.com:17101/chat/file/deal";
+		System.out.println(uploadFile(path, map, "openfire.png"));
 
 	}
 
@@ -424,6 +344,16 @@ public class HttpConnectionUtils
 	}
 
 	@Test
+	public void wqe() throws Exception
+	{
+		// file_id =13 ,aa96d0a8927a4b
+		Map<String, Object> param = new LinkedHashMap<>();
+		param.put("charset", "utf-8"/* "d6428a5e24c14cc186c61feac634d2d344a557a4" */);
+		param.put("mobile", "13679487149");
+		System.out.print(request("https://chat.cloudak47.com:17100/outer/business/user/getSpaceInfo", param));
+	}
+
+	@Test
 	public void getSpaceFileList() throws Exception
 	{
 		// file_id =13 ,aa96d0a8927a4b
@@ -448,9 +378,9 @@ public class HttpConnectionUtils
 	{
 		// file_id =13 ,aa96d0a8927a4b
 		Map<String, Object> param = new LinkedHashMap<>();
-		// param.put("token", "d6428a5e24c14cc186c61feac634d2d344a557a4");
+		param.put("token", "ce3abcc518474d569af9fe32b6f715a5d92f6f0a");
 		param.put("file_id", "17");
-		System.out.println(request("http://192.168.1.113:7100/outer/business/user/space/file/appendix/praise", param));
+		System.out.println(request("https://192.168.105.45:7243/business/user/space/file/appendix/praise", param));
 	}
 
 	@Test
@@ -466,6 +396,26 @@ public class HttpConnectionUtils
 	}
 
 	@Test
+	public void test() throws Exception
+	{
+		// file_id =13 ,aa96d0a8927a4b
+		Map<String, Object> param = new LinkedHashMap<>();
+		param.put("token", "821a6f1553b348bfa0d0606d226a9642a6a36b5f");
+		param.put("username", "caiyan.zheng");
+		System.out.println(request("http://192.168.105.45:7100/business/user/desktop/list1", param));
+	}
+
+	@Test
+	public void smsSend() throws Exception
+	{
+		// file_id =13 ,aa96d0a8927a4b
+		Map<String, Object> param = new LinkedHashMap<>();
+		param.put("mobile", "13723659040");
+//		param.put("password", "123456");
+//		param.put("platform_type", "1");
+		System.out.println(request("https://sjdchatoc.cloudak47.com:7100/business/sms/send", param));
+	}
+	@Test
 	public void testLogin() throws Exception
 	{
 		// file_id =13 ,aa96d0a8927a4b
@@ -473,16 +423,17 @@ public class HttpConnectionUtils
 		param.put("account", "13679487149");
 		param.put("password", "123456");
 		param.put("platform_type", "1");
-		System.out.println(request("https://chatoc.cloudak47.com:17101/business/user/login1", param));
+		System.out.println(request("https://chat.cloudak47.com:17100/business/user/login1", param));
 	}
+
 
 	@Test
 	public void testRoomList() throws Exception
 	{
 		// file_id =13 ,aa96d0a8927a4b
 		Map<String, Object> param = new LinkedHashMap<>();
-		param.put("token", "d6428a5e24c14cc186c61feac634d2d344a557a4");
-		System.out.println(request("https://chatoc.cloudak47.com:17101/business/user/chat/room/list", param));
+		param.put("token", "8bc9463683684dbf9b58ea04b2ab83ddb113f803");
+		System.out.println(request("http://192.168.105.27:/business/user/chat/room/list", param));
 	}
 
 	@Test
@@ -507,10 +458,19 @@ public class HttpConnectionUtils
 		{
 			map.put(UUID.randomUUID().toString(), System.currentTimeMillis() + 5 * 1000l);
 		}
-	}
-
+	}//84a200
+	
 	@Test
-	public void test6() throws Exception {
+	public void test63() throws Exception
+	{
+		LinkedHashMap<Object, Object> param = new LinkedHashMap<>();
+		param.put("xiaohui", "4e666d70e7bd4913");
+		param.put("company_name","default");
+		System.out.println(request("https://chat.cloudak47.com:17100/outer/business/user/store/getLinkParam", param));
+	}
+	@Test
+	public void test6() throws Exception
+	{
 		LinkedHashMap<Object, Object> param = new LinkedHashMap<>();
 		param.put("token", "109d4618321541e3bf7804384721215b22c6eaab");
 		System.out.println(request("http://192.168.1.106:7110/business/sys/thirdparty/list", param));
@@ -520,6 +480,49 @@ public class HttpConnectionUtils
 	public void test7() throws Exception
 	{
 		System.out.println(request("http://appcc.pispower.com/hottub/chatserver/list?company_name=default", new LinkedHashMap<>()));
+	}
+
+	@Test
+	public void test8() throws Exception
+	{
+		Date date = new Date(1547708383096l);
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeZone(TimeZone.getTimeZone("UTC"));
+		cal.setTime(date);
+		System.out.println(cal.getTime());
+	}
+
+	@Test
+	public void test9() throws Exception
+	{
+		System.out.println(request("https://appcc.onecloud.cn/api/update/android/latest", new LinkedHashMap<String, String>()));
+	}
+
+	@Test
+	public void ss()
+	{
+		System.out.println(Runtime.getRuntime().availableProcessors());
+	}
+
+	@Test
+	public void getBranchList1() throws Exception
+	{
+		// file_id =13 ,aa96d0a8927a4b
+		Map<String, Object> param = new LinkedHashMap<>();
+		param.put("token", "4657ea8efb1e4e7da0e11f2e4560f732436c741a");
+		System.out.print(request("http://192.168.1.106:9110/business/user/branch/list", param));
+	}
+
+	@Test
+	public void getPowerdude() throws Exception
+	{
+		// file_id =13 ,aa96d0a8927a4b
+		Map<String, Object> param = new LinkedHashMap<>();
+		param.put("token", "d6428a5e24c14cc186c61feac634d2d344a557a4");
+		param.put("longitude", "113.28552000");
+		param.put("latitude", "23.09590200");
+		// param.put("file_id", "17");
+		System.out.println(request("https://chatoc.cloudak47.com:17101/business/user/powerdude/listnearby", param));
 	}
 
 }

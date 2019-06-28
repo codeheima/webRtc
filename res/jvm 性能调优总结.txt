@@ -188,3 +188,4 @@
 jstatd -J-Djava.security.policy=jstatd.all.policy -J-Djava.rmi.server.hostname=192.168.105.45 &
 jstat -gccause 2pid 2000
 jmap -dump:format=b,file=/tmp/heap.hprof  pid  导出堆
+java -XX:+PrintCommandLineFlags -version 查看JVM默认手机器和收集策略

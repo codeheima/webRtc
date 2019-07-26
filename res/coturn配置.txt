@@ -912,6 +912,7 @@ openssl pkcs12 -export -in pispower.com.pem -out pispower.p12
 jstatd -J-Djava.security.policy=jstatd.all.policy -J-Djava.rmi.server.hostname=192.168.105.45 &
 jstat -gccause 2pid 2000
 jmap -dump:format=b,file=/tmp/heap.hprof  pid  导出堆
+jmap -histo:live 2857
 
 
 

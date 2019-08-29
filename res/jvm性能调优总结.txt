@@ -185,9 +185,10 @@
 4.打印线程堆栈信息:jstack pid |grep tid -A30
 5.使用jstat -gcutil命令查看进程的内存情况:jstat gcutil pid  10
 
+6.使用jvisualvm查看堆的情况
 jstatd -J-Djava.security.policy=jstatd.all.policy -J-Djava.rmi.server.hostname=192.168.105.45 &
 jstat -gccause 2pid 2000
-jmap -dump:format=b,file=/tmp/heap.hprof  pid  导出堆
+jmap -dump:format=b,file=/tmp/heap.hprof  pid  导出堆　用jprofile分析堆的具体情况
 java -XX:+PrintCommandLineFlags -version 查看JVM默认手机器和收集策略
 
 
